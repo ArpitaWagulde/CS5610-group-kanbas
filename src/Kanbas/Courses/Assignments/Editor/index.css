@@ -1,0 +1,20 @@
+.wd-asmt-edit-home {
+  padding: 15px;
+}
+
+.wd-asmt-edit-buttons > button {
+  border-color: #d3d3d3;
+}
+
+.wd-asmt-edit-buttons > span {
+  padding: 7px;
+  padding-right: 15px !important;
+}
+
+.wd-asmt-edit-home > div > div {
+  padding: 10px;
+}
+
+.wd-asmt-edit-home > div > div > div {
+  text-align: right;
+}

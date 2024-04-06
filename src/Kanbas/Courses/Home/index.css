@@ -1,0 +1,42 @@
+.wd-course-status > ul > li {
+  margin: 2px;
+  text-align: left;
+}
+
+.wd-course-status > ul > li > a {
+  color: black;
+  text-decoration: none;
+}
+
+.wd-course-status > button {
+  border-color: #d3d3d3;
+  margin: 2px;
+}
+
+.wd-course-status {
+  margin-left: 30px;
+  margin-right: 10px !important;
+}
+
+.wd-coming-up-list {
+  padding-inline-start: 10px;
+}
+
+.wd-coming-up-list > li {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+  padding-bottom: 10px;
+}
+
+.wd-coming-up-list > li > i {
+  padding: 3px;
+}
+
+.wd-coming-up-list > li > a {
+  color: red !important;
+}
+
+.wd-coming-up-list > li > small {
+  margin-left: 20px !important;
+  color: gray;
+}

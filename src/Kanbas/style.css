@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+body * {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#wd-top-kanbas-nav,
+#wd-top-course-nav {
+  height: 100%;
+  width: 100%;
+}
+
+#wd-top-kanbas-nav > ul {
+  list-style: none;
+}
+
+#wd-top-kanbas-nav > ul > li > a > svg {
+  margin: 15px;
+}
+
+#wd-top-kanbas-nav > ul > li > a {
+  font-size: 1.3em;
+  color: red;
+  text-decoration: none;
+}
+
+#wd-top-course-nav > ul {
+  list-style: none;
+  padding-top: 10px;
+}
+
+#wd-top-course-nav > ul > li > a {
+  font-size: 1em;
+  color: red;
+  text-decoration: none;
+}
+
+#wd-top-course-nav > ul > li > a > svg {
+  margin: 7px;
+}
+
+#wd-top-course-nav > ul > li > svg {
+  color: gray;
+  padding-left: 20px;
+}
+
+.wd-top-nav-bar {
+  right: 0;
+  left: 0;
+  padding: 10px;
+}

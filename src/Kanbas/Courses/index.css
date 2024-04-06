@@ -1,0 +1,44 @@
+.wd-course-content {
+  margin-left: 0px;
+}
+
+@media screen and (min-width: 768px) {
+  .wd-course-content {
+    margin-left: 0px;
+  }
+}
+
+.wd-top-breadcrumb {
+  padding: 20px;
+  padding-bottom: 0px !important;
+}
+
+.wd-top-breadcrumb > button {
+  margin-right: 25px;
+  border-color: #d3d3d3;
+}
+
+.wd-top-breadcrumb > nav > ol > li > a {
+  color: red;
+  text-decoration: none;
+}
+
+.wd-top-breadcrumb > nav > ol > li.active > a {
+  color: black;
+}
+
+.wd-top-breadcrumb > nav {
+  font-size: 1.2em;
+  align-items: center;
+  padding-top: 3px;
+  --bs-breadcrumb-divider: ">";
+}
+
+.wd-hr-breadcrumb {
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.wd-top-breadcrumb > svg {
+  color: red;
+}

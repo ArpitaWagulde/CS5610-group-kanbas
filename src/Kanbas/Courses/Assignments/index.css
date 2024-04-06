@@ -1,0 +1,50 @@
+.wd-asmt-list,
+.wd-asmt-list * {
+  border-radius: 0%;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.wd-asmt-list {
+  margin: 5px;
+}
+
+.wd-asmt-list > li {
+  background-color: lightgray;
+  border: 1px solid gray !important;
+  border-left: none !important;
+}
+
+.wd-asmt-list > li > div {
+  padding: 12px;
+  border-left: 1px solid gray !important;
+}
+
+.wd-asmt-list > li > div > svg {
+  padding: 2px;
+}
+
+.wd-asmt-list > li > ul > li {
+  padding: 10px;
+  border-top: 1px solid gray !important;
+  border-left: 3px solid green;
+}
+
+.wd-asmt-list > li > ul > li > div > div {
+  align-self: center;
+}
+
+.wd-asmt-list > li > ul > li > div > div > a {
+  text-decoration: none;
+  color: black;
+}
+
+.wd-asmt-list > li {
+  margin-bottom: 20px;
+}
+
+.wd-asmt-home-buttons > div > button {
+  border-color: #d3d3d3;
+  margin: 2px;
+}

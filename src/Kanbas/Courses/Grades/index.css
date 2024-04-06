@@ -1,0 +1,25 @@
+.wd-grade-home-buttons > button {
+  border-color: #d3d3d3;
+  margin: 5px;
+}
+
+.wd-grade-home {
+  padding: 10px;
+}
+
+.wd-grade-table > table > tbody > tr > td,
+.wd-grade-table > table > thead > th {
+  border: 1px solid;
+  border-collapse: collapse;
+  border-color: #dedddd;
+  vertical-align: middle;
+}
+
+.wd-grade-table > table {
+  text-align: center;
+}
+
+.wd-grade-table > table > tbody > tr > td > a {
+  text-decoration: none;
+  color: red;
+}
