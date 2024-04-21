@@ -174,8 +174,8 @@ function Quizzes() {
                     </Link>
                     <br />
                     <small>
-                      {getStatus(quiz)} | Due {quiz.due_date} | {quiz.points} |{" "}
-                      {quiz.question_count}
+                      {getStatus(quiz)} | Due {quiz.due_date} | {quiz.points}{" "}
+                      pts | {quiz.question_count}
                     </small>
                   </div>
                   <div className="ms-auto" style={{ alignSelf: "center" }}>
