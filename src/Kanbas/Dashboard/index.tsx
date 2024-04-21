@@ -1,4 +1,11 @@
 import { Link } from "react-router-dom";
+const formatDate = (dateString: string): string => {
+  const dateObject = new Date(dateString);
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObject.getDate() + 1).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 function Dashboard({
   courses,
   course,
@@ -35,13 +42,13 @@ function Dashboard({
         onChange={(e) => setCourse({ ...course, number: e.target.value })}
       />
       <input
-        value={course.startDate}
+        value={formatDate(course.startDate)}
         className="form-control"
         type="date"
         onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
       />
       <input
-        value={course.endDate}
+        value={formatDate(course.endDate)}
         className="form-control"
         type="date"
         onChange={(e) => setCourse({ ...course, endDate: e.target.value })}
@@ -49,7 +56,7 @@ function Dashboard({
       <div className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {courses.map((course) => (
-            <div key={course._id} className="col" style={{ width: 300 }}>
+            <div key={course.id} className="col" style={{ width: 300 }}>
               <div className="card">
                 <img
                   src={`/images/${course.image}`}
@@ -60,7 +67,7 @@ function Dashboard({
                 <div className="card-body" style={{ height: 160 }}>
                   <Link
                     className="card-title"
-                    to={`/Kanbas/Courses/${course._id}/Home`}
+                    to={`/Kanbas/Courses/${course.id}/Home`}
                     style={{
                       textDecoration: "none",
                       color: "navy",
@@ -71,7 +78,7 @@ function Dashboard({
                   </Link>
                   <p className="card-text">{course.name}</p>
                   <Link
-                    to={`/Kanbas/Courses/${course._id}/Home`}
+                    to={`/Kanbas/Courses/${course.id}/Home`}
                     className="btn btn-primary"
                   >
                     Go{" "}
@@ -88,7 +95,7 @@ function Dashboard({
                   <button
                     onClick={(event) => {
                       event.preventDefault();
-                      deleteCourse(course._id);
+                      deleteCourse(course.id);
                     }}
                     className="btn btn-danger ms-2"
                   >

@@ -14,7 +14,7 @@ import {
 
 import { FaC, FaX } from "react-icons/fa6";
 const links = [
-  { label: "Account", icon: <FaRegUserCircle className="fs-2 text-white" /> },
+  { label: "Account", icon: <FaRegUserCircle className="fs-2" /> },
   { label: "Dashboard", icon: <FaTachometerAlt className="fs-2" /> },
   { label: "Courses", icon: <FaBook className="fs-2" /> },
   { label: "Calendar", icon: <FaRegCalendarAlt className="fs-2" /> },

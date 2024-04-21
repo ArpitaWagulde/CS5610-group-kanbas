@@ -127,7 +127,7 @@ function ModuleList() {
               {module.name}
               <span className="float-end">
                 <button
-                  onClick={() => handleDeleteModule(module._id)}
+                  onClick={() => handleDeleteModule(module.id)}
                   className="btn btn-danger me-2 p-1"
                   style={{ borderRadius: "0.375rem" }}
                 >
@@ -145,7 +145,7 @@ function ModuleList() {
                 <FaEllipsisV className="ms-2" />
               </span>
             </div>
-            {selectedModule?._id === module?._id && (
+            {selectedModule?.id === module?.id && (
               <ul className="list-group">
                 {module.lessons?.map((lesson: any) => (
                   <li className="list-group-item" key={index}>

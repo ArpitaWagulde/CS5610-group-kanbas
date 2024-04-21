@@ -1,3 +1,4 @@
+import Account from "./Account";
 import KanbasNavigation from "./Navigation";
 import Dashboard from "./Dashboard";
 import "./style.css";
@@ -9,19 +10,23 @@ import store from "./store";
 import { Provider } from "react-redux";
 
 const API_BASE = process.env.REACT_APP_API_BASE;
+const COURSES_API = `${API_BASE}/api/courses`;
+const axiosWithCredentials = axios.create({
+  baseURL: `${COURSES_API}`,
+  withCredentials: true,
+});
 
 function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
-  const COURSES_API = `${API_BASE}/api/courses`;
   const findAllCourses = async () => {
-    const response = await axios.get(COURSES_API);
+    const response = await axiosWithCredentials.get(``);
     setCourses(response.data);
   };
   useEffect(() => {
     findAllCourses();
   }, []);
   const [course, setCourse] = useState({
-    _id: "1234",
+    id: "1234",
     name: "New Course",
     number: "CS9999",
     startDate: "2023-09-10",
@@ -29,18 +34,18 @@ function Kanbas() {
     image: "plain-blue.jpeg",
   });
   const addNewCourse = async () => {
-    const response = await axios.post(COURSES_API, course);
+    const response = await axiosWithCredentials.post(``, course);
     setCourses([...courses, response.data]);
   };
   const deleteCourse = async (courseId: any) => {
-    const response = await axios.delete(`${COURSES_API}/${courseId}`);
-    setCourses(courses.filter((course) => course._id !== courseId));
+    const response = await axiosWithCredentials.delete(`/${courseId}`);
+    setCourses(courses.filter((course) => course.id !== courseId));
   };
   const updateCourse = async () => {
-    const response = await axios.put(`${COURSES_API}/${course._id}`, course);
+    const response = await axiosWithCredentials.put(`/${course.id}`, course);
     setCourses(
       courses.map((c) => {
-        if (c._id === course._id) {
+        if (c.id === course.id) {
           return course;
         } else {
           return c;
@@ -59,7 +64,7 @@ function Kanbas() {
           <div style={{ flexGrow: 1 }}>
             <Routes>
               <Route path="/" element={<Navigate to="Dashboard" />} />
-              <Route path="Account" element={<h1>Account</h1>} />
+              <Route path="/Account/*" element={<Account />} />
               <Route
                 path="Dashboard"
                 element={
