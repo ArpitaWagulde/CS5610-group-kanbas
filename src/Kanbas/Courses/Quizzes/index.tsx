@@ -64,7 +64,7 @@ function Quizzes() {
           <Button
             variant="primary"
             onClick={() => {
-              handleDeleteAssignment(quiz._id);
+              handleDeleteAssignment(quiz.id);
               setShow(false);
             }}
           >
@@ -85,9 +85,6 @@ function Quizzes() {
           placeholder="Search for Quiz"
         />
         <div style={{ justifyContent: "flex-end" }}>
-          <button type="button" className="btn btn-light">
-            <FaPlus className="ms-2" /> Group
-          </button>
           <button
             type="button"
             className="btn btn-light"
@@ -116,14 +113,7 @@ function Quizzes() {
       <ul className="list-group wd-asmt-list m-2">
         <li className="list-group-item">
           <div>
-            <FaEllipsisV className="me-2" /> QUIZZES
-            <span className="float-end">
-              <span className="p-1 me-2 badge border border-dark rounded-pill text-secondary">
-                40% of Total
-              </span>
-              <FaPlus className="ms-2" />
-              <FaEllipsisV className="ms-2" />
-            </span>
+            <FaEllipsisV className="me-2" /> Assignment Quizzes
           </div>
           <ul className="list-group">
             {quizList.map((quiz) => (
@@ -135,7 +125,7 @@ function Quizzes() {
                   </div>
                   <div className="text-secondary p-1">
                     <Link
-                      to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz._id}`}
+                      to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}`}
                     >
                       {quiz.title}
                     </Link>

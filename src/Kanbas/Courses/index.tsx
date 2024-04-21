@@ -13,6 +13,7 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import Quizzes from "./Quizzes";
 import Grades from "./Grades";
+import QuizEditor from "./Quizzes/Editor";
 const API_BASE = process.env.REACT_APP_API_BASE;
 
 function Courses() {
@@ -147,6 +148,10 @@ function Courses() {
               <Route
                 path="Assignments/:assignmentId"
                 element={<AssignmentEditor />}
+              />
+              <Route
+                path="Quizzes/:quizId"
+                element={<QuizEditor />}
               />
               <Route path="Grades" element={<Grades />} />
             </Routes>
