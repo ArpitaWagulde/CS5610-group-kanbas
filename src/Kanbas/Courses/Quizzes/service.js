@@ -16,7 +16,10 @@ export const findQuizzesForCourse = async (courseId) => {
   return response.data;
 };
 export const updateQuiz = async (quiz) => {
-  const response = await axios.put(`${QUIZZES_API}/${quiz.id}`, quiz);
+  const response = await axios.put(
+    `${QUIZZES_API}/${quiz.id}`,
+    quiz
+  );
   return response.data;
 };
 export const publishQuiz = async (quiz) => {

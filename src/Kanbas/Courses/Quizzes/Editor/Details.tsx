@@ -5,8 +5,16 @@ import { addQuiz, setQuiz, updateQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
+import { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 function DetailsEditor() {
+  const editorRef = useRef<any>(null); // Specify the type as Editor
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
   const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,20 +53,28 @@ function DetailsEditor() {
         value={quiz?.title}
       />
       <br />
-
+      Quiz Instructions:
+      <Editor
+        apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
+        onInit={(_evt, editor) => editorRef.current = editor}
+        initialValue=""
+        init={{
+          height: 150,
+          menubar: false,
+          plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+          ],
+          toolbar: 'undo redo | blocks | ' +
+            'bold italic forecolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | help',
+          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        }}
+      />
+      <button onClick={log}>Log editor content</button>
       <div>
-        <div className="row">
-          <div className="col-3">Points</div>
-          <div className="col-9">
-            <input
-              className="form-control"
-              value={quiz?.weightage}
-              onChange={(e) =>
-                dispatch(setQuiz({ ...quiz, weightage: e.target.value }))
-              }
-            />
-          </div>
-        </div>
         <div className="row">
           <div className="col-3">Assignment Group</div>
           <div className="col-9">

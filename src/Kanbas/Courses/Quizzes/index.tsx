@@ -57,9 +57,7 @@ function getStatus(quiz: any) {
 
 function Quizzes() {
   const { courseId } = useParams();
-  const quizList = useSelector(
-    (state: KanbasState) => state.quizzesReducer.quizzes
-  );
+  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -152,8 +150,8 @@ function Quizzes() {
             <FaPlus className="ms-2" /> Quiz
           </button>
 
-          <FaEllipsisV />
-
+            <FaEllipsisV />
+         
           <br />
         </div>
       </div>
@@ -167,7 +165,7 @@ function Quizzes() {
             {quizList.map((quiz) => (
               <li className="list-group-item" key={quiz.id}>
                 <div className="d-flex">
-                  <div style={{ alignSelf: "center" }}></div>
+                  <div style={{ alignSelf: 'center' }}></div>
                   <div className="text-secondary p-1">
                     <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}`}>
                       {quiz.title}
@@ -223,7 +221,7 @@ function Quizzes() {
                         <MenuItem
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
-                            handleEditQuiz();
+                            navigate(`/Kanbas/Courses/${courseId}/Quizzes/QuizDetailsSummary/${quiz.id}`);
                           }}
                         >
                           <FaEdit /> &nbsp; Edit
@@ -254,5 +252,4 @@ function Quizzes() {
     </div>
   );
 }
-
 export default Quizzes;
