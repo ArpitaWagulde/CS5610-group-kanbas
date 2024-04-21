@@ -149,10 +149,7 @@ function Courses() {
                 path="Assignments/:assignmentId"
                 element={<AssignmentEditor />}
               />
-              <Route
-                path="Quizzes/:quizId"
-                element={<QuizEditor />}
-              />
+              <Route path="Quizzes/:quizId" element={<QuizEditor />} />
               <Route path="Grades" element={<Grades />} />
             </Routes>
           </>

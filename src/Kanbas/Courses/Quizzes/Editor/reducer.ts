@@ -7,7 +7,7 @@ const initialState = {
     due_date: "2024-03-04",
     points: "8 pts",
     question_count: "12 Questions",
-    title:"Unnamed Quiz"
+    title: "Unnamed Quiz",
   },
 };
 

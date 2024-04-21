@@ -1,35 +1,50 @@
-import { FaCheckCircle, FaEllipsisV, FaPlus, FaTrashAlt, FaEdit, FaNewspaper, FaTimes} from 'react-icons/fa';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { IconButton, Menu, MenuItem } from '@mui/material';
-import { useEffect, useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import * as service from './service';
-import { useSelector, useDispatch } from 'react-redux';
-import { KanbasState } from '../../store';
-import { deleteQuiz, setQuiz, setQuizzes, updateQuiz, publishQuiz } from './reducer';
+import {
+  FaCheckCircle,
+  FaEllipsisV,
+  FaPlus,
+  FaTrashAlt,
+  FaEdit,
+  FaNewspaper,
+  FaTimes,
+} from "react-icons/fa";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import * as service from "./service";
+import { useSelector, useDispatch } from "react-redux";
+import { KanbasState } from "../../store";
+import {
+  deleteQuiz,
+  setQuiz,
+  setQuizzes,
+  updateQuiz,
+  publishQuiz,
+} from "./reducer";
 
 function getStatus(quiz: any) {
   const currentDate = new Date();
   const availableDate = new Date(quiz.available_date);
   const untilDate = new Date(quiz.until_date);
   const dueDate = new Date(quiz.due_date);
-  
 
   if (currentDate < availableDate) {
-    return 'Not Available';
+    return "Not Available";
   } else if (currentDate > untilDate) {
-    return 'Not Available';
+    return "Not Available";
   } else if (currentDate >= availableDate && currentDate <= untilDate) {
-    return 'Available';
+    return "Available";
   } else if (currentDate > dueDate) {
-    return 'Past Due';
+    return "Past Due";
   }
 }
 
 function Quizzes() {
   const { courseId } = useParams();
-  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
+  const quizList = useSelector(
+    (state: KanbasState) => state.quizzesReducer.quizzes
+  );
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   const status = getStatus(quiz);
   const dispatch = useDispatch();
@@ -50,8 +65,8 @@ function Quizzes() {
   };
 
   const handlePublishQuiz = () => {
-    const status = service.publishQuiz({ ...quiz, published:  published})
-    dispatch(publishQuiz({ ...quiz, published:  published}));
+    const status = service.publishQuiz({ ...quiz, published: published });
+    dispatch(publishQuiz({ ...quiz, published: published }));
     handleCloseMenu();
   };
   useEffect(() => {
@@ -91,7 +106,7 @@ function Quizzes() {
         </Modal.Footer>
       </Modal>
       <div
-        style={{ justifySelf: 'stretch' }}
+        style={{ justifySelf: "stretch" }}
         className="d-flex wd-asmt-home-buttons justify-content-between m-2"
       >
         <input
@@ -99,15 +114,15 @@ function Quizzes() {
           className="form-control w-25"
           placeholder="Search for Quiz"
         />
-        <div style={{ justifyContent: 'flex-end' }}>
+        <div style={{ justifyContent: "flex-end" }}>
           <button
             type="button"
             className="btn btn-light"
-            style={{ backgroundColor: 'red', color: 'white' }}
+            style={{ backgroundColor: "red", color: "white" }}
             onClick={() => {
               navigate(
                 `/Kanbas/Courses/${courseId}/Quizzes/${
-                  'A' + new Date().getTime().toString()
+                  "A" + new Date().getTime().toString()
                 }`
               );
             }}
@@ -115,8 +130,8 @@ function Quizzes() {
             <FaPlus className="ms-2" /> Quiz
           </button>
 
-            <FaEllipsisV />
-         
+          <FaEllipsisV />
+
           <br />
         </div>
       </div>
@@ -130,7 +145,7 @@ function Quizzes() {
             {quizList.map((quiz) => (
               <li className="list-group-item">
                 <div className="d-flex">
-                  <div style={{ alignSelf: 'center' }}></div>
+                  <div style={{ alignSelf: "center" }}></div>
                   <div className="text-secondary p-1">
                     <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}`}>
                       {quiz.title}
@@ -140,40 +155,52 @@ function Quizzes() {
                       {status} | Due {quiz.due_date} | {quiz.points}
                     </small>
                   </div>
-                  <div className="ms-auto" style={{ alignSelf: 'center' }}>
+                  <div className="ms-auto" style={{ alignSelf: "center" }}>
                     <span>
                       <FaCheckCircle className="text-success" />
                       <IconButton
-                      aria-label="more"
-                      aria-controls="menu"
-                      aria-haspopup="true"
-                      onClick={handleOpenMenu}
-                      style={{ height: '37px' }}
-                    >
-                    <FaEllipsisV className="ms-2" />
-                    </IconButton>
-                    <Menu
-                      id="menu"
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={handleCloseMenu}
-                    >
-                      <MenuItem  onClick={() => {
-                                    dispatch(setQuiz(quiz));
-                                    setShow(true);
-                                  }}>
-                        <FaTrashAlt /> Delete
-                      </MenuItem>
-                      <MenuItem onClick={handleEditQuiz}>
-                        <FaEdit /> Edit
-                      </MenuItem>
-                      <MenuItem onClick={ () =>{dispatch(setQuiz(quiz));
-                        published ? setPublished(false)
-      : setPublished(true);
-    handlePublishQuiz();}}>
-                      {published ? <FaTimes style={{ color: 'red' }} /> : <FaNewspaper />} {published ? 'Unpublish' : 'Publish'}
-                    </MenuItem>
-                    </Menu>
+                        aria-label="more"
+                        aria-controls="menu"
+                        aria-haspopup="true"
+                        onClick={handleOpenMenu}
+                        style={{ height: "37px" }}
+                      >
+                        <FaEllipsisV className="ms-2" />
+                      </IconButton>
+                      <Menu
+                        id="menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleCloseMenu}
+                      >
+                        <MenuItem
+                          onClick={() => {
+                            dispatch(setQuiz(quiz));
+                            setShow(true);
+                          }}
+                        >
+                          <FaTrashAlt /> Delete
+                        </MenuItem>
+                        <MenuItem onClick={handleEditQuiz}>
+                          <FaEdit /> Edit
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            dispatch(setQuiz(quiz));
+                            published
+                              ? setPublished(false)
+                              : setPublished(true);
+                            handlePublishQuiz();
+                          }}
+                        >
+                          {published ? (
+                            <FaTimes style={{ color: "red" }} />
+                          ) : (
+                            <FaNewspaper />
+                          )}{" "}
+                          {published ? "Unpublish" : "Publish"}
+                        </MenuItem>
+                      </Menu>
                     </span>
                   </div>
                 </div>

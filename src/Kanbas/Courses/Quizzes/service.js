@@ -4,10 +4,7 @@ const API_BASE = process.env.REACT_APP_API_BASE;
 const COURSES_API = `${API_BASE}/api/courses`;
 const QUIZZES_API = `${API_BASE}/api/quizzes`;
 export const createQuiz = async (courseId, quiz) => {
-  const response = await axios.post(
-    `${COURSES_API}/${courseId}/quizzes`,
-    quiz
-  );
+  const response = await axios.post(`${COURSES_API}/${courseId}/quizzes`, quiz);
   return response.data;
 };
 export const deleteQuiz = async (quizId) => {
@@ -20,17 +17,11 @@ export const findQuizzesForCourse = async (courseId) => {
   return response.data;
 };
 export const updateQuiz = async (quiz) => {
-  const response = await axios.put(
-    `${QUIZZES_API}/${quiz.id}`,
-    quiz
-  );
+  const response = await axios.put(`${QUIZZES_API}/${quiz.id}`, quiz);
   return response.data;
 };
 export const publishQuiz = async (quiz) => {
-  console.log("service",quiz);
-  const response = await axios.put(
-    `${QUIZZES_API}/${quiz.id}`,
-    quiz
-  );
+  console.log("service", quiz);
+  const response = await axios.put(`${QUIZZES_API}/${quiz.id}`, quiz);
   return response.data;
 };

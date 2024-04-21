@@ -15,13 +15,9 @@ function DetailsEditor() {
     (state: KanbasState) => state.quizzesReducer.quizzes
   );
 
-  const quiz = useSelector(
-    (state: KanbasState) => state.quizzesReducer.quiz
-  );
+  const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
 
-  const existsQuiz = quizzes.find(
-    (quiz) => quiz.id === quizId
-  );
+  const existsQuiz = quizzes.find((quiz) => quiz.id === quizId);
   const handleAddQuiz = () => {
     service.createQuiz(courseId, quiz).then((quiz) => {
       dispatch(addQuiz(quiz));
@@ -46,14 +42,11 @@ function DetailsEditor() {
       <input
         className="form-control"
         id="assignment-name"
-        onChange={(e) =>
-          dispatch(setQuiz({ ...quiz, title: e.target.value }))
-        }
+        onChange={(e) => dispatch(setQuiz({ ...quiz, title: e.target.value }))}
         value={quiz?.title}
       />
       <br />
-      
-      
+
       <div>
         <div className="row">
           <div className="col-3">Points</div>
@@ -62,9 +55,7 @@ function DetailsEditor() {
               className="form-control"
               value={quiz?.weightage}
               onChange={(e) =>
-                dispatch(
-                  setQuiz({ ...quiz, weightage: e.target.value })
-                )
+                dispatch(setQuiz({ ...quiz, weightage: e.target.value }))
               }
             />
           </div>
@@ -87,20 +78,19 @@ function DetailsEditor() {
           <div className="col-9">
             <select className="form-select" id="grade">
               <option selected value="graded">
-              Graded Quiz
+                Graded Quiz
               </option>
               <option value="practice">Practice Quiz</option>
               <option value="gradedsurvey">Graded Survey</option>
               <option value="ungradedsurvey">Ungraded Survey</option>
-
             </select>
           </div>
         </div>
         <div className="row">
           <div className="col-3"></div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            
-            <b>Options</b><br/>
+            <b>Options</b>
+            <br />
             <input
               className="form-check-input"
               type="checkbox"
@@ -113,7 +103,8 @@ function DetailsEditor() {
               htmlFor="chkbox-do-not-count"
             >
               Shuffle Answers
-            </label><br/>
+            </label>
+            <br />
             <input
               className="form-check-input"
               type="checkbox"
@@ -126,25 +117,25 @@ function DetailsEditor() {
               htmlFor="chkbox-do-not-count"
             >
               Time Limit
-            </label> &nbsp;
-            <input className="form-check-input"
-              type="text"
-              value=""/>
-              <label>Minutes</label><br/>
+            </label>{" "}
+            &nbsp;
+            <input className="form-check-input" type="text" value="" />
+            <label>Minutes</label>
+            <br />
             <div className="border border-light-grey rounded border-1 m-1 p-3">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value="do-not-count"
-              name="check-do-not-count"
-              id="chkbox-do-not-count"
-            />
-            <label
-              className="form-check-label ps-1 "
-              htmlFor="chkbox-do-not-count"
-            >
-              Allow Multiple Attempts
-            </label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value="do-not-count"
+                name="check-do-not-count"
+                id="chkbox-do-not-count"
+              />
+              <label
+                className="form-check-label ps-1 "
+                htmlFor="chkbox-do-not-count"
+              >
+                Allow Multiple Attempts
+              </label>
             </div>
           </div>
         </div>
@@ -168,9 +159,7 @@ function DetailsEditor() {
                 id="due"
                 value={quiz?.due}
                 onChange={(e) =>
-                  dispatch(
-                    setQuiz({ ...quiz, due: e.target.value })
-                  )
+                  dispatch(setQuiz({ ...quiz, due: e.target.value }))
                 }
               />
               <div className="row">
@@ -261,7 +250,5 @@ function DetailsEditor() {
       </div>
     </div>
   );
-
-
-
-}export default DetailsEditor;
+}
+export default DetailsEditor;

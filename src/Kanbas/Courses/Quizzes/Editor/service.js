@@ -22,9 +22,6 @@ export const findQuestionsForQuiz = async (quizId) => {
   return response.data;
 };
 export const updateQuestion = async (question) => {
-  const response = await axios.put(
-    `${QUESTIONS_API}/${question.id}`,
-    question
-  );
+  const response = await axios.put(`${QUESTIONS_API}/${question.id}`, question);
   return response.data;
 };
