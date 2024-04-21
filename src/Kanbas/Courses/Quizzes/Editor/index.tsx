@@ -1,229 +1,34 @@
 import { useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link,useLocation } from "react-router-dom";
 import "./index.css";
 import { addQuiz, setQuiz, updateQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
-
+import {Routes, Route, Navigate} from "react-router";
+import  DetailsEditor from "./Details";
+import QuestionsEditor from "./Questions";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 function QuizEditor() {
-  const { courseId, quizId } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const quizzes = useSelector(
-    (state: KanbasState) => state.quizzesReducer.quizzes
-  );
-
-  const quiz = useSelector(
-    (state: KanbasState) => state.quizzesReducer.quiz
-  );
-
-  const existsQuiz = quizzes.find(
-    (quiz) => quiz._id === quizId
-  );
-  const handleAddQuiz = () => {
-    service.createQuiz(courseId, quiz).then((quiz) => {
-      dispatch(addQuiz(quiz));
-    });
-  };
-  const handleUpdateQuiz = async () => {
-    const status = await service.updateQuiz(quiz);
-    console.log("in editor", quiz);
-    dispatch(updateQuiz(quiz));
-  };
-  useEffect(() => {
-    if (existsQuiz !== undefined) {
-      dispatch(setQuiz(existsQuiz));
-    } else {
-      dispatch(setQuiz([]));
-    }
-  }, []);
-
-  return (
-    <div className="wd-asmt-edit-home flex-fill">
-      <h3>Assignment Name</h3>
-      <input
-        className="form-control"
-        id="assignment-name"
-        onChange={(e) =>
-          dispatch(setQuiz({ ...quiz, title: e.target.value }))
-        }
-        value={quiz?.title}
-      />
-      <br />
-      <textarea
-        style={{ height: "10%" }}
-        className="form-control"
-        onChange={(e) =>
-          dispatch(
-            setQuiz({ ...quiz, description: e.target.value })
-          )
-        }
-      >
-        {quiz?.description}
-      </textarea>
-      <br />
-      <div>
-        <div className="row">
-          <div className="col-3">Points</div>
-          <div className="col-9">
-            <input
-              className="form-control"
-              value={quiz?.weightage}
-              onChange={(e) =>
-                dispatch(
-                  setQuiz({ ...quiz, weightage: e.target.value })
-                )
-              }
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-3">Assignment Group</div>
-          <div className="col-9">
-            <select className="form-select" id="groups">
-              <option selected value="assignments">
-                ASSIGNMENTS
-              </option>
-              <option value="quiz">QUIZ</option>
-              <option value="exam">EXAMS</option>
-              <option value="project">PROJECT</option>
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-3">Display Grade as</div>
-          <div className="col-9">
-            <select className="form-select" id="grade">
-              <option selected value="percentage">
-                Percentage
-              </option>
-              <option value="percentile">Percentile</option>
-              <option value="out-of-100">Out Of 100</option>
-              <option value="gpa">GPA</option>
-            </select>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-3"></div>
-          <div className="col-9" style={{ textAlign: "left" }}>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value="do-not-count"
-              name="check-do-not-count"
-              id="chkbox-do-not-count"
-            />
-            <label
-              className="form-check-label ps-1"
-              htmlFor="chkbox-do-not-count"
-            >
-              Do not count this assignment towards final grade
-            </label>
-          </div>
-        </div>
-        <br />
-        <div className="row">
-          <div className="col-3">Assign</div>
-          <div className="col-9 card p-1">
-            <div className="card-body" style={{ textAlign: "left" }}>
-              <span className="card-title m-2">
-                <b>Assign to</b>
-              </span>
-              <br />
-              <input className="m-2 form-control" value="Everyone" />
-              <span className="card-title m-2">
-                <b>Due</b>
-              </span>
-              <br />
-              <input
-                className="m-2 form-control"
-                type="date"
-                id="due"
-                value={quiz?.due}
-                onChange={(e) =>
-                  dispatch(
-                    setQuiz({ ...quiz, due: e.target.value })
-                  )
-                }
-              />
-              <div className="row">
-                <div className="col-6">
-                  <span className="card-title m-2">
-                    <b>Available From</b>
-                  </span>
-                  <br />
-                  <input
-                    className="m-2 form-control"
-                    type="date"
-                    id="from"
-                    value="2021-01-01"
-                  />
-                </div>
-                <div className="col-6">
-                  <span className="card-title m-2">
-                    <b>Until</b>
-                  </span>
-                  <br />
-                  <input
-                    className="m-2 form-control"
-                    type="date"
-                    id="to"
-                    value="2021-01-01"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="card-footer" style={{ textAlign: "center" }}>
-              <i className="fa fa-plus pe-2"></i>Add
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div className="d-inline">
-          <div className="row">
-            <div className="col-9" style={{ textAlign: "left" }}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value="notify-users"
-                name="check-notify-users"
-                id="chkbox-notify-userst"
-              />
-              <label
-                className="form-check-label ps-1"
-                htmlFor="chkbox-notify-users"
-              >
-                Notify users that this content has changed
-              </label>
-            </div>
-            <div
-              className="col-3"
-              style={{ float: "right", paddingBottom: "2px" }}
-            >
-              <button
-                onClick={() => {
-                  existsQuiz === undefined
-                    ? handleAddQuiz()
-                    : handleUpdateQuiz();
-                  navigate(`/Kanbas/Courses/${courseId}/Quizzes`);
-                }}
-                className="btn btn-success ms-2 float-end"
-              >
-                Save
-              </button>
-              <Link
-                to={`/Kanbas/Courses/${courseId}/Quizzes`}
-                className="btn btn-danger float-end"
-              >
-                Cancel
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  const { pathname } = useLocation();
+  return(
+  <>
+  <div className="container-fluid">
+  <Tabs
+      defaultActiveKey="details"
+     
+      className="mb-3"
+    >
+    <Tab eventKey="details" title="Details">
+        <DetailsEditor/>
+      </Tab>
+      <Tab eventKey="questions" title="Questions">
+        <QuestionsEditor/>
+      </Tab>
+    </Tabs>
+  </div>
+  </>
   );
 }
 export default QuizEditor;
