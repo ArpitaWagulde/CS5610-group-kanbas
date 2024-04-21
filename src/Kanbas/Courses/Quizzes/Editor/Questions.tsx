@@ -29,7 +29,6 @@ function QuestionsEditor() {
   };
   const handleUpdateQuestion = async () => {
     const status = await service.updateQuestion(question);
-    console.log("in editor", question);
     dispatch(updateQuestion(question));
   };
   useEffect(() => {

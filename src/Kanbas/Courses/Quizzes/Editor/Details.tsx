@@ -25,7 +25,6 @@ function DetailsEditor() {
   };
   const handleUpdateQuiz = async () => {
     const status = await service.updateQuiz(quiz);
-    console.log("in editor", quiz);
     dispatch(updateQuiz(quiz));
   };
   useEffect(() => {

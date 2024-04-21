@@ -18,7 +18,6 @@ export default function Profile() {
     setProfile(account);
   };
   const save = async () => {
-    console.log(profile);
     await client.updateUser(profile);
   };
   const signout = async () => {

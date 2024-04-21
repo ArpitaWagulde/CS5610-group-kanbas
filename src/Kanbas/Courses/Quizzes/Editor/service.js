@@ -13,7 +13,6 @@ export const createQuestion = async (quizId, question) => {
   return response.data;
 };
 export const deleteQuestion = async (questionId) => {
-  console.log(`${QUESTIONS_API}/${questionId}`);
   const response = await axios.delete(`${QUESTIONS_API}/${questionId}`);
   return response.data;
 };

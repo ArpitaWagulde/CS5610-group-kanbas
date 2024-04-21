@@ -8,7 +8,7 @@ const initialState = {
     due_date: "2024-03-04",
     points: "8 pts",
     question_count: "12 Questions",
-    published: "false",
+    published: false,
     title: "Unnamed Quiz",
   },
 };
@@ -37,14 +37,12 @@ const quizzesSlice = createSlice({
       });
     },
     setQuiz: (state, action) => {
-      console.log(action.payload);
       state.quiz = action.payload;
     },
     setQuizzes: (state, action) => {
       state.quizzes = action.payload;
     },
     publishQuiz: (state, action) => {
-      console.log("reducer", action.payload);
       state.quizzes = state.quizzes.map((quiz) => {
         if (quiz.id === action.payload.id) {
           return { ...quiz, published: action.payload.published };
@@ -52,7 +50,15 @@ const quizzesSlice = createSlice({
           return quiz;
         }
       });
-      console.log(state.quizzes);
+    },
+    setQuizById: (state, action) => {
+      const quizId = action.payload;
+      const foundQuiz = state.quizzes.find((q) => q.id === quizId);
+      if (foundQuiz) {
+        state.quiz = foundQuiz;
+      } else {
+        console.error(`Quiz with ID ${quizId} not found.`);
+      }
     },
   },
 });
@@ -64,6 +70,7 @@ export const {
   setQuiz,
   setQuizzes,
   publishQuiz,
+  setQuizById,
 } = quizzesSlice.actions;
 
 export default quizzesSlice.reducer;

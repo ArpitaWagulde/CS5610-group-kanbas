@@ -29,7 +29,6 @@ function AssignmentEditor() {
   };
   const handleUpdateAssignment = async () => {
     const status = await service.updateAssignment(assignment);
-    console.log("in editor", assignment);
     dispatch(updateAssignment(assignment));
   };
   useEffect(() => {
