@@ -1,83 +1,80 @@
 import { useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./index.css";
-import { addAssignment, setAssignment, updateAssignment } from "../reducer";
+import { addQuiz, setQuiz, updateQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
+import { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
-function AssignmentEditor() {
-  const { courseId, assignmentId } = useParams();
+function DetailsEditor() {
+  const editorRef = useRef<any>(null); // Specify the type as Editor
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+  const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const assignments = useSelector(
-    (state: KanbasState) => state.assignmentsReducer.assignments
+  const quizzes = useSelector(
+    (state: KanbasState) => state.quizzesReducer.quizzes
   );
 
-  const assignment = useSelector(
-    (state: KanbasState) => state.assignmentsReducer.assignment
-  );
+  const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
 
-  const existsAssignment = assignments.find(
-    (assignment) => assignment._id === assignmentId
-  );
-  const handleAddAssignment = () => {
-    service.createAssignment(courseId, assignment).then((assignment) => {
-      dispatch(addAssignment(assignment));
+  const existsQuiz = quizzes.find((quiz) => quiz.id === quizId);
+  const handleAddQuiz = () => {
+    service.createQuiz(courseId, quiz).then((quiz) => {
+      dispatch(addQuiz(quiz));
     });
   };
-  const handleUpdateAssignment = async () => {
-    const status = await service.updateAssignment(assignment);
-    dispatch(updateAssignment(assignment));
+  const handleUpdateQuiz = async () => {
+    const status = await service.updateQuiz(quiz);
+    dispatch(updateQuiz(quiz));
   };
   useEffect(() => {
-    if (existsAssignment !== undefined) {
-      dispatch(setAssignment(existsAssignment));
+    if (existsQuiz !== undefined) {
+      dispatch(setQuiz(existsQuiz));
     } else {
-      dispatch(setAssignment([]));
+      dispatch(setQuiz([]));
     }
   }, []);
 
   return (
     <div className="wd-asmt-edit-home flex-fill">
-      <h3>Assignment Name</h3>
+      <h3>Quiz Name</h3>
       <input
         className="form-control"
         id="assignment-name"
-        onChange={(e) =>
-          dispatch(setAssignment({ ...assignment, title: e.target.value }))
-        }
-        value={assignment?.title}
+        onChange={(e) => dispatch(setQuiz({ ...quiz, title: e.target.value }))}
+        value={quiz?.title}
       />
       <br />
-      <textarea
-        style={{ height: "10%" }}
-        className="form-control"
-        onChange={(e) =>
-          dispatch(
-            setAssignment({ ...assignment, description: e.target.value })
-          )
-        }
-      >
-        {assignment?.description}
-      </textarea>
-      <br />
+      Quiz Instructions:
+      <Editor
+        apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
+        onInit={(_evt, editor) => editorRef.current = editor}
+        initialValue=""
+        init={{
+          height: 150,
+          menubar: false,
+          plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+          ],
+          toolbar: 'undo redo | blocks | ' +
+            'bold italic forecolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | help',
+          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        }}
+      />
+      <button onClick={log}>Log editor content</button>
       <div>
-        <div className="row">
-          <div className="col-3">Points</div>
-          <div className="col-9">
-            <input
-              className="form-control"
-              value={assignment?.weightage}
-              onChange={(e) =>
-                dispatch(
-                  setAssignment({ ...assignment, weightage: e.target.value })
-                )
-              }
-            />
-          </div>
-        </div>
         <div className="row">
           <div className="col-3">Assignment Group</div>
           <div className="col-9">
@@ -92,21 +89,23 @@ function AssignmentEditor() {
           </div>
         </div>
         <div className="row">
-          <div className="col-3">Display Grade as</div>
+          <div className="col-3">Quiz Type</div>
           <div className="col-9">
             <select className="form-select" id="grade">
-              <option selected value="percentage">
-                Percentage
+              <option selected value="graded">
+                Graded Quiz
               </option>
-              <option value="percentile">Percentile</option>
-              <option value="out-of-100">Out Of 100</option>
-              <option value="gpa">GPA</option>
+              <option value="practice">Practice Quiz</option>
+              <option value="gradedsurvey">Graded Survey</option>
+              <option value="ungradedsurvey">Ungraded Survey</option>
             </select>
           </div>
         </div>
         <div className="row">
           <div className="col-3"></div>
           <div className="col-9" style={{ textAlign: "left" }}>
+            <b>Options</b>
+            <br />
             <input
               className="form-check-input"
               type="checkbox"
@@ -115,11 +114,44 @@ function AssignmentEditor() {
               id="chkbox-do-not-count"
             />
             <label
-              className="form-check-label ps-1"
+              className="form-check-label ps-1 border-solid border-2"
               htmlFor="chkbox-do-not-count"
             >
-              Do not count this assignment towards final grade
+              Shuffle Answers
             </label>
+            <br />
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value="do-not-count"
+              name="check-do-not-count"
+              id="chkbox-do-not-count"
+            />
+            <label
+              className="form-check-label ps-1 border-solid border-2"
+              htmlFor="chkbox-do-not-count"
+            >
+              Time Limit
+            </label>{" "}
+            &nbsp;
+            <input className="form-check-input" type="text" value="" />
+            <label>Minutes</label>
+            <br />
+            <div className="border border-light-grey rounded border-1 m-1 p-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value="do-not-count"
+                name="check-do-not-count"
+                id="chkbox-do-not-count"
+              />
+              <label
+                className="form-check-label ps-1 "
+                htmlFor="chkbox-do-not-count"
+              >
+                Allow Multiple Attempts
+              </label>
+            </div>
           </div>
         </div>
         <br />
@@ -140,11 +172,9 @@ function AssignmentEditor() {
                 className="m-2 form-control"
                 type="date"
                 id="due"
-                value={assignment?.due}
+                value={quiz?.due}
                 onChange={(e) =>
-                  dispatch(
-                    setAssignment({ ...assignment, due: e.target.value })
-                  )
+                  dispatch(setQuiz({ ...quiz, due: e.target.value }))
                 }
               />
               <div className="row">
@@ -203,17 +233,28 @@ function AssignmentEditor() {
             >
               <button
                 onClick={() => {
-                  existsAssignment === undefined
-                    ? handleAddAssignment()
-                    : handleUpdateAssignment();
-                  navigate(`/Kanbas/Courses/${courseId}/Assignments`);
+                  existsQuiz === undefined
+                    ? handleAddQuiz()
+                    : handleUpdateQuiz();
+                  navigate(`/Kanbas/Courses/${courseId}/Quizzes`);
                 }}
                 className="btn btn-success ms-2 float-end"
               >
                 Save
               </button>
+              <button
+                onClick={() => {
+                  existsQuiz === undefined
+                    ? handleAddQuiz()
+                    : handleUpdateQuiz();
+                  navigate(`/Kanbas/Courses/${courseId}/Quizzes`);
+                }}
+                className="btn btn-success ms-2 float-end"
+              >
+                Save & Publish
+              </button>
               <Link
-                to={`/Kanbas/Courses/${courseId}/Assignments`}
+                to={`/Kanbas/Courses/${courseId}/Quizzes`}
                 className="btn btn-danger float-end"
               >
                 Cancel
@@ -225,4 +266,4 @@ function AssignmentEditor() {
     </div>
   );
 }
-export default AssignmentEditor;
+export default DetailsEditor;

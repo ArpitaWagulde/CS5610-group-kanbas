@@ -11,7 +11,10 @@ import { FaChevronDown } from "react-icons/fa";
 import { KanbasMobileNavigation } from "../Navigation";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
+import Quizzes from "./Quizzes";
 import Grades from "./Grades";
+import QuizEditor from "./Quizzes/Editor";
+import QuizDetailsSummary from "./Quizzes/DetailsSummary";
 const API_BASE = process.env.REACT_APP_API_BASE;
 
 function Courses() {
@@ -142,10 +145,13 @@ function Courses() {
               <Route path="Modules" element={<Modules />} />
               <Route path="Piazza" element={<h1>Piazza</h1>} />
               <Route path="Assignments" element={<Assignments />} />
+              <Route path="Quizzes" element={<Quizzes />} />
               <Route
                 path="Assignments/:assignmentId"
                 element={<AssignmentEditor />}
               />
+              <Route path="Quizzes/:quizId" element={<QuizEditor />} />
+              <Route path="Quizzes/QuizDetailsSummary/:quizId" element={<QuizDetailsSummary />} />
               <Route path="Grades" element={<Grades />} />
             </Routes>
           </>
