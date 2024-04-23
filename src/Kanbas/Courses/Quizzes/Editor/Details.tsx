@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 function DetailsEditor() {
-  const editorRef = useRef<any>(null); // Specify the type as Editor
+  const editorRef = useRef<any>(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
