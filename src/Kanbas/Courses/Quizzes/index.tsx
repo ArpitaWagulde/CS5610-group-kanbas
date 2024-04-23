@@ -159,7 +159,7 @@ function Quizzes() {
       <ul className="list-group wd-asmt-list m-2">
         <li className="list-group-item">
           <div>
-            <FaEllipsisV className="me-2" /> Assignment Quizzes
+            <FaEllipsisV className="me-2" />  Quizzes
           </div>
           <ul className="list-group">
             {quizList.map((quiz) => (

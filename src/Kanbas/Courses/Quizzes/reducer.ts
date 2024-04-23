@@ -18,7 +18,9 @@ const quizzesSlice = createSlice({
   initialState,
   reducers: {
     addQuiz: (state, action) => {
+      console.log("inside add",action.payload);
       state.quizzes = [{ ...action.payload }, ...state.quizzes];
+      console.log("after add",state.quizzes);
     },
 
     deleteQuiz: (state, action) => {
@@ -37,6 +39,7 @@ const quizzesSlice = createSlice({
       });
     },
     setQuiz: (state, action) => {
+      console.log(action.payload);
       state.quiz = action.payload;
     },
     setQuizzes: (state, action) => {

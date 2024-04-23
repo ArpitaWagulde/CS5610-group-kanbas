@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   questions: <any[]>[],
   question: {
-    status: "Closed",
-    due_date: "2024-03-04",
+    id:"",
+    title: "Unnamed Question",
     points: "8 pts",
     question_count: "12 Questions",
-    title: "Unnamed Quiz",
+    
   },
 };
 
@@ -21,13 +21,13 @@ const questionsSlice = createSlice({
 
     deleteQuestion: (state, action) => {
       state.questions = state.questions.filter(
-        (question) => question._id !== action.payload
+        (question) => question.id !== action.payload
       );
     },
 
     updateQuestion: (state, action) => {
       state.questions = state.questions.map((question) => {
-        if (question._id === action.payload._id) {
+        if (question.id === action.payload.id) {
           return action.payload;
         } else {
           return question;

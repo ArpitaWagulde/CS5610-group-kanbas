@@ -17,7 +17,9 @@ function Assignments() {
   );
   const assignment = useSelector(
     (state: KanbasState) => state.assignmentsReducer.assignment
-  );
+  ); 
+  console.log("assignments",assignmentList);
+  console.log("assign",assignment);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
