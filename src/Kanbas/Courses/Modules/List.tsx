@@ -100,7 +100,7 @@ function ModuleList() {
       </button>
       <button onClick={handleUpdateModule} className="btn btn-primary m-2">
         Update
-      </button>
+      </button> 
       <input
         value={module.name}
         onChange={(e) =>

@@ -16,22 +16,25 @@ function DetailsEditor() {
   );
 
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
-
+  // console.log("quizzes",quizzes);
+  // console.log("current quiz",quiz);
   const existsQuiz = quizzes.find((quiz) => quiz.id === quizId);
   const handleAddQuiz = () => {
+    console.log(quiz);
     service.createQuiz(courseId, quiz).then((quiz) => {
       dispatch(addQuiz(quiz));
     });
   };
   const handleUpdateQuiz = async () => {
     const status = await service.updateQuiz(quiz);
-    console.log("in editor", quiz);
+    // console.log("in editor", quiz);
     dispatch(updateQuiz(quiz));
   };
   useEffect(() => {
     if (existsQuiz !== undefined) {
       dispatch(setQuiz(existsQuiz));
     } else {
+      // console.log("useEffect",quiz);
       dispatch(setQuiz([]));
     }
   }, []);
@@ -41,25 +44,14 @@ function DetailsEditor() {
       <h3>Quiz Name</h3>
       <input
         className="form-control"
-        id="assignment-name"
+        id="quiz-name"
         onChange={(e) => dispatch(setQuiz({ ...quiz, title: e.target.value }))}
         value={quiz?.title}
-      />
+      /> 
       <br />
 
       <div>
-        <div className="row">
-          <div className="col-3">Points</div>
-          <div className="col-9">
-            <input
-              className="form-control"
-              value={quiz?.weightage}
-              onChange={(e) =>
-                dispatch(setQuiz({ ...quiz, weightage: e.target.value }))
-              }
-            />
-          </div>
-        </div>
+
         <div className="row">
           <div className="col-3">Assignment Group</div>
           <div className="col-9">
@@ -119,7 +111,7 @@ function DetailsEditor() {
               Time Limit
             </label>{" "}
             &nbsp;
-            <input className="form-check-input" type="text" value="" />
+            <input className="form-text-input w-25" type="text" value="" />
             <label>Minutes</label>
             <br />
             <div className="border border-light-grey rounded border-1 m-1 p-3">
@@ -157,9 +149,9 @@ function DetailsEditor() {
                 className="m-2 form-control"
                 type="date"
                 id="due"
-                value={quiz?.due}
+                value={quiz?.due_date}
                 onChange={(e) =>
-                  dispatch(setQuiz({ ...quiz, due: e.target.value }))
+                  dispatch(setQuiz({ ...quiz, due_date: e.target.value }))
                 }
               />
               <div className="row">

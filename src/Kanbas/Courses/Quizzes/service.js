@@ -4,6 +4,7 @@ const API_BASE = process.env.REACT_APP_API_BASE;
 const COURSES_API = `${API_BASE}/api/courses`;
 const QUIZZES_API = `${API_BASE}/api/quizzes`;
 export const createQuiz = async (courseId, quiz) => {
+  console.log("inside create",quiz);
   const response = await axios.post(`${COURSES_API}/${courseId}/quizzes`, quiz);
   return response.data;
 };

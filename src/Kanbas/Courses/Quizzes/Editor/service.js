@@ -5,9 +5,9 @@ const COURSES_API = `${API_BASE}/api/courses`;
 const QUIZZES_API = `${API_BASE}/api/quizzes`;
 const QUESTIONS_API = `${API_BASE}/api/questions`;
 
-export const createQuestion = async (quizId, question) => {
+export const createQuestion = async (courseId,quizId, question) => {
   const response = await axios.post(
-    `${QUIZZES_API}/${quizId}/question`,
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/question`,
     question
   );
   return response.data;
