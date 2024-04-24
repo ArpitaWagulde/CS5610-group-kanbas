@@ -16,6 +16,7 @@ import Grades from "./Grades";
 import QuizEditor from "./Quizzes/Editor";
 import QuizDetailsSummary from "./Quizzes/DetailsSummary";
 import QuestionTypes from "./Quizzes/Questions";
+import Preview from "./Quizzes/Preview";
 const API_BASE = process.env.REACT_APP_API_BASE;
 
 function Courses() {
@@ -158,6 +159,8 @@ function Courses() {
               />
               <Route path="Grades" element={<Grades />} />
               <Route path="QuestionTypes" element={<QuestionTypes />} />
+              <Route path="Preview" element={<Preview />} />
+         
             </Routes>
           </>
         </div>

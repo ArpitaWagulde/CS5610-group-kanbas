@@ -4,6 +4,7 @@ import "./index.css";
 import MultipleChoice from "./MultipleChoice";
 import TrueOrFalse from "./TrueOrFalse";
 import FillInTheBlanks from "./FillInTheBlanks";
+import Preview from "../Preview";
 function QuestionTypes() {
   const { pathname } = useLocation();
   const [selectedOption, setSelectedOption] = useState("");
