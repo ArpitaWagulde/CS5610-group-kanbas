@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   quizzes: <any[]>[],
-  quiz: {
+  quiz: <any>{
     id: "1234",
     status: "Closed",
     description:"",
@@ -61,6 +61,7 @@ const quizzesSlice = createSlice({
       if (foundQuiz) {
         state.quiz = foundQuiz;
       } else {
+        state.quiz = null;
         console.error(`Quiz with ID ${quizId} not found.`);
       }
     },

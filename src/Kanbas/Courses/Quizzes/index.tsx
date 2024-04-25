@@ -5,7 +5,6 @@ import {
   FaTrashAlt,
   FaEdit,
   FaNewspaper,
-  FaTimes,
   FaBan,
 } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -23,6 +22,7 @@ import {
   publishQuiz,
   setQuizById,
 } from "./reducer";
+import store from "../../store";
 
 function getStatus(quiz: any) {
   const monthNames = [
@@ -55,9 +55,19 @@ function getStatus(quiz: any) {
   }
 }
 
+export const handlePublishQuiz = (quiz: any) => {
+  const status = service.publishQuiz({
+    ...quiz,
+    published: !quiz.published,
+  });
+  store.dispatch(publishQuiz({ ...quiz, published: !quiz.published }));
+};
+
 function Quizzes() {
   const { courseId } = useParams();
-  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
+  const quizList = useSelector(
+    (state: KanbasState) => state.quizzesReducer.quizzes
+  );
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,19 +81,6 @@ function Quizzes() {
     });
   };
 
-  const handleEditQuiz = async () => {
-    const status = await service.updateQuiz(quiz);
-    dispatch(updateQuiz(quiz));
-  };
-
-  const handlePublishQuiz = (quiz: any) => {
-    const status = service.publishQuiz({
-      ...quiz,
-      published: !quiz.published,
-    });
-    dispatch(publishQuiz({ ...quiz, published: !quiz.published }));
-    handleCloseMenu();
-  };
   useEffect(() => {
     service.findQuizzesForCourse(courseId).then((quizzes) => {
       dispatch(setQuizzes(quizzes));
@@ -149,9 +146,9 @@ function Quizzes() {
           >
             <FaPlus className="ms-2" /> Quiz
           </button>
-
+          <button className="btn btn-light">
             <FaEllipsisV />
-         
+          </button>
           <br />
         </div>
       </div>
@@ -159,13 +156,13 @@ function Quizzes() {
       <ul className="list-group wd-asmt-list m-2">
         <li className="list-group-item">
           <div>
-            <FaEllipsisV className="me-2" />  Quizzes
+            <FaEllipsisV className="me-2" /> Quizzes
           </div>
           <ul className="list-group">
             {quizList.map((quiz) => (
               <li className="list-group-item" key={quiz.id}>
                 <div className="d-flex">
-                  <div style={{ alignSelf: 'center' }}></div>
+                  <div style={{ alignSelf: "center" }}></div>
                   <div className="text-secondary p-1">
                     <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}`}>
                       {quiz.title}
@@ -184,6 +181,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             handlePublishQuiz(quiz);
+                            handleCloseMenu();
                           }}
                         />
                       ) : (
@@ -192,6 +190,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             handlePublishQuiz(quiz);
+                            handleCloseMenu();
                           }}
                         />
                       )}
@@ -221,7 +220,9 @@ function Quizzes() {
                         <MenuItem
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
-                            navigate(`/Kanbas/Courses/${courseId}/Quizzes/QuizDetailsSummary/${quiz.id}`);
+                            navigate(
+                              `/Kanbas/Courses/${courseId}/Quizzes/QuizDetailsSummary/${quiz.id}`
+                            );
                           }}
                         >
                           <FaEdit /> &nbsp; Edit
@@ -230,6 +231,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             handlePublishQuiz(quiz);
+                            handleCloseMenu();
                           }}
                         >
                           {quiz.published ? (
