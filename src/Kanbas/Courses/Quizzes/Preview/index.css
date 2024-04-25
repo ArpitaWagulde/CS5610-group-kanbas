@@ -17,6 +17,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 700px;
+  text-align: left;
 }
 
 .card-header {
@@ -27,6 +28,13 @@
   margin: 0;
   font-size: 24px;
   color: #333;
+  text-align: left;
+}
+.card-heading2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+  text-align: right;
 }
 
 .bg-light-grey {

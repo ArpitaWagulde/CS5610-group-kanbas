@@ -76,9 +76,11 @@ function Preview() {
         {questions.map((question, index) => (
           <div key={index}>
             <div className="card">
-              <div className="card-header bg-light-grey">
-                <h2 className="card-heading">{question.title}</h2>
-              </div>
+            <div className="card-header bg-light-grey" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h4 className="card-heading">{question.title}</h4>
+            <h4 className="card-heading">{question.points} pts</h4>
+          </div>
+
               <div className="card-body">
                 {question.description}
                 <hr></hr>
