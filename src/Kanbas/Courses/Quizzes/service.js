@@ -31,3 +31,8 @@ export const publishQuiz = async (quiz) => {
   const response = await axiosWithCredentials.put(`quizzes/${quiz.id}`, quiz);
   return response.data;
 };
+
+export const findQuiz = async (quizId) => {
+  const response = await axiosWithCredentials.get(`quizzes/${quizId}`);
+  return response.data;
+};

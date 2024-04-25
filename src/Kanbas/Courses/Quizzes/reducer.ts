@@ -5,12 +5,24 @@ const initialState = {
   quiz: <any>{
     id: "1234",
     status: "Closed",
-    description:"",
-    due_date: "2024-03-04",
-    points: "8 pts",
-    question_count: "12 Questions",
+    description: "",
+    due_date: "2024-01-01",
     published: false,
     title: "Unnamed Quiz",
+    points: 100,
+    assignment_group: "Quizzes",
+    shuffle_answers: true,
+    time_limit: 20,
+    multiple_attempts: false,
+    show_correct: "Immediately",
+    access_code: "abcd",
+    one_question: true,
+    webcam: false,
+    lock_question: false,
+    available_date: "2024-01-01",
+    until_date: "2024-01-01",
+    question_count: 11,
+    course: "CS101",
   },
 };
 
@@ -19,9 +31,9 @@ const quizzesSlice = createSlice({
   initialState,
   reducers: {
     addQuiz: (state, action) => {
-      console.log("inside add",action.payload);
+      // console.log("inside add", action.payload);
       state.quizzes = [{ ...action.payload }, ...state.quizzes];
-      console.log("after add",state.quizzes);
+      // console.log("after add", state.quizzes);
     },
 
     deleteQuiz: (state, action) => {
@@ -40,7 +52,6 @@ const quizzesSlice = createSlice({
       });
     },
     setQuiz: (state, action) => {
-      console.log("setQuiz",action.payload);
       state.quiz = action.payload;
     },
     setQuizzes: (state, action) => {

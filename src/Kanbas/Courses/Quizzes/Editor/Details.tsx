@@ -5,16 +5,17 @@ import { addQuiz, setQuiz, updateQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
-import { useRef } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { handlePublishQuiz } from "..";
 
 function DetailsEditor() {
   const editorRef = useRef<any>(null);
-//   const handleEditorChange = (content:any, editorRef:any) => {
-//     console.log('Content was updated:', content);
-//     dispatch(setQuiz({ ...quiz, description: content }))
-//    // quiz.setState({ text: content });
-// }
+  //   const handleEditorChange = (content:any, editorRef:any) => {
+  //     console.log('Content was updated:', content);
+  //     dispatch(setQuiz({ ...quiz, description: content }))
+  //    // quiz.setState({ text: content });
+  // }
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
@@ -23,6 +24,14 @@ function DetailsEditor() {
   const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const formatDate = (dateString: string): string => {
+    const dateObject = new Date(dateString);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObject.getDate() + 1).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const quizzes = useSelector(
     (state: KanbasState) => state.quizzesReducer.quizzes
@@ -44,12 +53,9 @@ function DetailsEditor() {
     dispatch(updateQuiz(quiz));
   };
   useEffect(() => {
-    if (existsQuiz !== undefined) {
-      dispatch(setQuiz(existsQuiz));
-    } else {
-      // console.log("useEffect",quiz);
-      dispatch(setQuiz([]));
-    }
+    service.findQuiz(quizId).then((quiz) => {
+      dispatch(setQuiz(quiz));
+    });
   }, []);
 
   return (
@@ -60,38 +66,56 @@ function DetailsEditor() {
         id="quiz-name"
         onChange={(e) => dispatch(setQuiz({ ...quiz, title: e.target.value }))}
         value={quiz?.title}
-      /> 
+      />
       <br />
       Quiz Instructions:
       <Editor
-onChange={(content, editor) => {
-  const newDescription = editor.getContent(); // Use getContent to get editor content
-  console.log("New description:", newDescription); // Check if description is updated
-  dispatch(setQuiz({ ...quiz, description: newDescription.toString() }));
-  console.log("New quiz state:", quiz); // Check the updated quiz state
-}}
-value={quiz.description}
-        apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
-        onInit={(_evt, editor) => editorRef.current = editor}
+        onChange={(content, editor) => {
+          const newDescription = editor.getContent(); // Use getContent to get editor content
+          console.log("New description:", newDescription); // Check if description is updated
+          dispatch(
+            setQuiz({ ...quiz, description: newDescription.toString() })
+          );
+          console.log("New quiz state:", quiz); // Check the updated quiz state
+        }}
+        value={quiz.description}
+        apiKey="35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg"
+        onInit={(_evt, editor) => (editorRef.current = editor)}
         initialValue=""
         init={{
           height: 150,
           menubar: false,
           plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+            "advlist",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "charmap",
+            "preview",
+            "anchor",
+            "searchreplace",
+            "visualblocks",
+            "code",
+            "fullscreen",
+            "insertdatetime",
+            "media",
+            "table",
+            "code",
+            "help",
+            "wordcount",
           ],
-          toolbar: 'undo redo | blocks | ' +
-            'bold italic forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
-          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+          toolbar:
+            "undo redo | blocks | " +
+            "bold italic forecolor | alignleft aligncenter " +
+            "alignright alignjustify | bullist numlist outdent indent | " +
+            "removeformat | help",
+          content_style:
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
       <button onClick={log}>Log editor content</button>
       <div>
-
         <div className="row">
           <div className="col-3">Assignment Group</div>
           <div className="col-9">
@@ -151,7 +175,8 @@ value={quiz.description}
               Time Limit
             </label>{" "}
             &nbsp;
-            <input className="form-text-input w-25" type="text" value="" />
+            <input className="form-text-input" type="number" maxLength={3} />
+            &nbsp;
             <label>Minutes</label>
             <br />
             <div className="border border-light-grey rounded border-1 m-1 p-3">
@@ -189,7 +214,7 @@ value={quiz.description}
                 className="m-2 form-control"
                 type="date"
                 id="due"
-                value={quiz?.due_date}
+                value={formatDate(quiz?.due_date)}
                 onChange={(e) =>
                   dispatch(setQuiz({ ...quiz, due_date: e.target.value }))
                 }
@@ -204,7 +229,12 @@ value={quiz.description}
                     className="m-2 form-control"
                     type="date"
                     id="from"
-                    value="2021-01-01"
+                    value={formatDate(quiz?.available_date)}
+                    onChange={(e) =>
+                      dispatch(
+                        setQuiz({ ...quiz, available_date: e.target.value })
+                      )
+                    }
                   />
                 </div>
                 <div className="col-6">
@@ -216,7 +246,10 @@ value={quiz.description}
                     className="m-2 form-control"
                     type="date"
                     id="to"
-                    value="2021-01-01"
+                    value={formatDate(quiz?.until_date)}
+                    onChange={(e) =>
+                      dispatch(setQuiz({ ...quiz, until_date: e.target.value }))
+                    }
                   />
                 </div>
               </div>
@@ -264,6 +297,7 @@ value={quiz.description}
                   existsQuiz === undefined
                     ? handleAddQuiz()
                     : handleUpdateQuiz();
+                  handlePublishQuiz(quiz);
                   navigate(`/Kanbas/Courses/${courseId}/Quizzes`);
                 }}
                 className="btn btn-success ms-2 float-end"

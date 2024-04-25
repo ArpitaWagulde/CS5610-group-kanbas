@@ -55,6 +55,14 @@ function getStatus(quiz: any) {
   }
 }
 
+const formatDate = (dateString: string): string => {
+  const dateObject = new Date(dateString);
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObject.getDate() + 1).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 export const handlePublishQuiz = (quiz: any) => {
   const status = service.publishQuiz({
     ...quiz,
@@ -169,8 +177,8 @@ function Quizzes() {
                     </Link>
                     <br />
                     <small>
-                      {getStatus(quiz)} | Due {quiz.due_date} | {quiz.points}{" "}
-                      pts | {quiz.question_count}
+                      {getStatus(quiz)} | Due {formatDate(quiz.due_date)} |{" "}
+                      {quiz.points} pts | {quiz.question_count} Questions
                     </small>
                   </div>
                   <div className="ms-auto" style={{ alignSelf: "center" }}>

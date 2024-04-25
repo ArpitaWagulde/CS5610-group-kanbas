@@ -10,7 +10,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "./service";
-import QuestionTypes from "../QuestionTypes";
 function QuestionsEditor() {
   const { courseId, quizId, questionId } = useParams();
   const dispatch = useDispatch();
@@ -22,15 +21,13 @@ function QuestionsEditor() {
   const question = useSelector(
     (state: KanbasState) => state.questionsReducer.question
   );
-  console.log("questionsList",questions);
-  console.log("question in editor",question);
-  console.log("questionsList", questions);
-  console.log("question", question);
+  // console.log("questionsList", questions);
+  // console.log("question", question);
   const existsQuestion = questions.find(
     (question) => question.id === questionId
   );
   const handleAddQuestion = () => {
-    service.createQuestion(courseId, quizId, question).then((question) => {
+    service.createQuestion(quizId, question).then((question) => {
       dispatch(addQuestion(question));
     });
     dispatch(setQuestion(question));
@@ -42,14 +39,14 @@ function QuestionsEditor() {
       dispatch(deleteQuestion(questionId));
     });
   };
-  const handleUpdateQuestion = async (question:any) => {
+  const handleUpdateQuestion = async (question: any) => {
     dispatch(setQuestion(question));
     const status = await service.updateQuestion(question);
     console.log("in update", question);
     dispatch(updateQuestion(question));
   };
   useEffect(() => {
-    console.log("exisiting in use effect", existsQuestion);
+    // console.log("exisiting in use effect", existsQuestion);
     if (existsQuestion !== undefined) {
       dispatch(setQuestion(existsQuestion));
     } else {

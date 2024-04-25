@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import "./index.css";
-import { addQuiz, setQuizzes, updateQuiz, setQuizById } from "../reducer";
+import { setQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
@@ -13,12 +13,18 @@ function QuizDetailsSummary() {
   const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const quizzes = useSelector(
-    (state: KanbasState) => state.quizzesReducer.quizzes
-  );
-  console.log("details screen", quizzes);
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
+  const [published, setPublished] = useState(Boolean);
   console.log("details screen", quiz);
+
+  const formatDate = (dateString: string): string => {
+    const dateObject = new Date(dateString);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObject.getDate() + 1).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   // const handleAddQuiz = () => {
   //   service.createQuiz(courseId, quiz).then((quiz) => {
   //     dispatch(addQuiz(quiz));
@@ -31,18 +37,21 @@ function QuizDetailsSummary() {
   // };
 
   useEffect(() => {
-    dispatch(setQuizById(quizId));
+    service.findQuiz(quizId).then((quiz) => {
+      dispatch(setQuiz(quiz));
+      setPublished(quiz.published);
+    });
   }, [quizId]);
 
   return (
     <div className="wd-asmt-edit-home flex-fill">
       <div className="d-flex justify-content-end wd-quiz-details">
-        {quiz.published ? (
+        {published ? (
           <button
             className="btn btn-light"
             onClick={() => {
-              dispatch(setQuizById(quiz.id));
               handlePublishQuiz(quiz);
+              setPublished(false);
             }}
           >
             <FaBan /> &nbsp; Unpublish
@@ -51,14 +60,13 @@ function QuizDetailsSummary() {
           <button
             className="btn btn-success"
             onClick={() => {
-              dispatch(setQuizById(quiz.id));
               handlePublishQuiz(quiz);
+              setPublished(true);
             }}
           >
-            <FaCheckCircle /> &nbsp; Published
+            <FaCheckCircle /> &nbsp; Publish
           </button>
         )}
-
         <button className="btn btn-light">Preview</button>
         <button
           className="btn btn-light"
@@ -67,7 +75,7 @@ function QuizDetailsSummary() {
           }}
         >
           <FaEdit />
-          Edit
+          &nbsp;Edit
         </button>
         <button className="btn btn-light">
           <FaEllipsisV />
