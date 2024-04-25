@@ -24,7 +24,7 @@ export const findQuestionsForQuiz = async (quizId) => {
   return response.data;
 };
 export const updateQuestion = async (question) => {
-  console.log(question);
+  // console.log(question);
   const response = await axiosWithCredentials.put(
     `questions/${question.id}`,
     question
