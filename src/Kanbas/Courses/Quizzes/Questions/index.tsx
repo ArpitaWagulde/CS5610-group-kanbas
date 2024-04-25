@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import "./index.css";
 import MultipleChoice from "./MultipleChoice";
 import TrueOrFalse from "./TrueOrFalse";
 import FillInTheBlanks from "./FillInTheBlanks";
 import Preview from "../Preview";
+import { Editor } from "@tinymce/tinymce-react";
 function QuestionTypes() {
   const { pathname } = useLocation();
+  const editorRef = useRef<any>(null);
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleOptionChange = (event: any) => {
@@ -49,6 +51,43 @@ function QuestionTypes() {
             <option value="FillinTheBlanks">Fill in the blanks</option>
           </select>
         </div>
+        <h3> Question:</h3>
+        <Editor
+          apiKey="35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg"
+          onInit={(_evt, editor) => (editorRef.current = editor)}
+          initialValue=""
+          init={{
+            height: 150,
+            menubar: false,
+            plugins: [
+              "advlist",
+              "autolink",
+              "lists",
+              "link",
+              "image",
+              "charmap",
+              "preview",
+              "anchor",
+              "searchreplace",
+              "visualblocks",
+              "code",
+              "fullscreen",
+              "insertdatetime",
+              "media",
+              "table",
+              "code",
+              "help",
+              "wordcount",
+            ],
+            toolbar:
+              "undo redo | blocks | " +
+              "bold italic forecolor | alignleft aligncenter " +
+              "alignright alignjustify | bullist numlist outdent indent | " +
+              "removeformat | help",
+            content_style:
+              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          }}
+        />
         <div>{componentToDisplay}</div>
       </div>
     </>

@@ -56,7 +56,14 @@ function QuizDetailsSummary() {
             <FaCheckCircle /> &nbsp; Publish
           </button>
         )}
-        <button className="btn btn-light">Preview</button>
+        <button
+          className="btn btn-light"
+          onClick={() => {
+            navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}/Preview`);
+          }}
+        >
+          Preview
+        </button>
         <button
           className="btn btn-light"
           onClick={() => {

@@ -4,6 +4,7 @@ import "./index.css";
 import {
   addQuestion,
   setQuestion,
+  setQuestions,
   updateQuestion,
   deleteQuestion,
 } from "./reducer";
@@ -13,6 +14,7 @@ import * as service from "./service";
 function QuestionsEditor() {
   const { courseId, quizId, questionId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const questions = useSelector(
     (state: KanbasState) => state.questionsReducer.questions
@@ -45,19 +47,27 @@ function QuestionsEditor() {
     console.log("in update", question);
     dispatch(updateQuestion(question));
   };
+  // useEffect(() => {
+  //   // console.log("exisiting in use effect", existsQuestion);
+  //   if (existsQuestion !== undefined) {
+  //     dispatch(setQuestion(existsQuestion));
+  //   } else {
+  //     dispatch(setQuestion([]));
+  //   }
+  // }, []);
   useEffect(() => {
-    // console.log("exisiting in use effect", existsQuestion);
-    if (existsQuestion !== undefined) {
-      dispatch(setQuestion(existsQuestion));
-    } else {
-      dispatch(setQuestion([]));
-    }
-  }, []);
+    service.findQuestionsForQuiz(quizId).then((questions) => {
+      dispatch(setQuestions(questions));
+    });
+  }, [quizId]);
   return (
     <>
       <button
         className="btn btn-light m-1 border border-light-grey rounded border-1"
-        onClick={handleAddQuestion}
+        onClick={() => {
+          handleAddQuestion();
+          navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}/Questions`);
+        }}
       >
         + New Question
       </button>

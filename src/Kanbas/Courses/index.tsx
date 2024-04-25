@@ -154,13 +154,15 @@ function Courses() {
               />
               <Route path="Quizzes/:quizId" element={<QuizEditor />} />
               <Route
-                path="Quizzes/QuizDetailsSummary/:quizId"
+                path="Quizzes/:quizId/Summary"
                 element={<QuizDetailsSummary />}
               />
               <Route path="Grades" element={<Grades />} />
-              <Route path="QuestionTypes" element={<QuestionTypes />} />
-              <Route path="Preview" element={<Preview />} />
-         
+              <Route
+                path="Quizzes/:quizId/Questions"
+                element={<QuestionTypes />}
+              />
+              <Route path="Quizzes/:quizId/Preview" element={<Preview />} />
             </Routes>
           </>
         </div>

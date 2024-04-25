@@ -229,7 +229,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             navigate(
-                              `/Kanbas/Courses/${courseId}/Quizzes/QuizDetailsSummary/${quiz.id}`
+                              `/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}/Summary`
                             );
                           }}
                         >
