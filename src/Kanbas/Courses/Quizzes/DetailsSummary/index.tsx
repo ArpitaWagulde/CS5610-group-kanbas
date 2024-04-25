@@ -103,7 +103,7 @@ function QuizDetailsSummary() {
             <b>Shuffle Answers</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-          {quiz?.shuffle_answers ? "True" : "False"}
+          {quiz?.shuffle_answers ? "Yes" : "No"}
           </div>
         </div>
         <div className="row">
@@ -119,7 +119,7 @@ function QuizDetailsSummary() {
             <b>Multiple Attempts</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.multiple_attempts ? "True" : "False"}
+            {quiz?.multiple_attempts ? "Yes" : "No"}
           </div>
         </div>
         <div className="row">
@@ -143,7 +143,7 @@ function QuizDetailsSummary() {
             <b>One Question at a time</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.one_question ? "True" : "False"}
+            {quiz?.one_question ? "Yes" : "No"}
           </div>
         </div>
         <div className="row">
@@ -151,7 +151,7 @@ function QuizDetailsSummary() {
             <b>Webcam Required</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.webcam ? "True" : "False"}
+            {quiz?.webcam ?"Yes" : "No"}
           </div>
         </div>
         <div className="row">
@@ -159,7 +159,7 @@ function QuizDetailsSummary() {
             <b>Lock Questions after answering</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.lock_question ? "True" : "False"}
+            {quiz?.lock_question ?"Yes" : "No"}
           </div>
         </div>
         <br></br>
