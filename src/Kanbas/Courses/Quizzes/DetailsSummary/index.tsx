@@ -25,17 +25,6 @@ function QuizDetailsSummary() {
     return `${year}-${month}-${day}`;
   };
 
-  // const handleAddQuiz = () => {
-  //   service.createQuiz(courseId, quiz).then((quiz) => {
-  //     dispatch(addQuiz(quiz));
-  //   });
-  // };
-  // const handleUpdateQuiz = async () => {
-  //   const status = await service.updateQuiz(quiz);
-  //   console.log("in editor", quiz);
-  //   dispatch(updateQuiz(quiz));
-  // };
-
   useEffect(() => {
     service.findQuiz(quizId).then((quiz) => {
       dispatch(setQuiz(quiz));
@@ -114,7 +103,7 @@ function QuizDetailsSummary() {
             <b>Shuffle Answers</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.shuffle_answers}
+          {quiz?.shuffle_answers ? "True" : "False"}
           </div>
         </div>
         <div className="row">
@@ -130,7 +119,7 @@ function QuizDetailsSummary() {
             <b>Multiple Attempts</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.multiple_attempts}
+            {quiz?.multiple_attempts ? "True" : "False"}
           </div>
         </div>
         <div className="row">
@@ -154,7 +143,7 @@ function QuizDetailsSummary() {
             <b>One Question at a time</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.one_question}
+            {quiz?.one_question ? "True" : "False"}
           </div>
         </div>
         <div className="row">
@@ -162,7 +151,7 @@ function QuizDetailsSummary() {
             <b>Webcam Required</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.webcam}
+            {quiz?.webcam ? "True" : "False"}
           </div>
         </div>
         <div className="row">
@@ -170,7 +159,7 @@ function QuizDetailsSummary() {
             <b>Lock Questions after answering</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.lock_question}
+            {quiz?.lock_question ? "True" : "False"}
           </div>
         </div>
         <br></br>
@@ -189,15 +178,15 @@ function QuizDetailsSummary() {
         <div className="row">
           <div className="col-4" style={{ textAlign: "left" }}>
             {" "}
-            {quiz?.due_date}{" "}
+            {formatDate(quiz?.due_date)}{" "}
           </div>
           <div className="col-4" style={{ textAlign: "left" }}>
             {" "}
-            {quiz?.available_date}{" "}
+            {formatDate(quiz?.available_date)}{" "}
           </div>
           <div className="col-4" style={{ textAlign: "left" }}>
             {" "}
-            {quiz?.until_date}{" "}
+            {formatDate(quiz?.until_date)}{" "}
           </div>
         </div>
         <hr></hr>
