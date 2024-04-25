@@ -5,7 +5,7 @@ import { addQuestion, setQuestion, updateQuestion,deleteQuestion } from "./reduc
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "./service";
-
+import QuestionTypes from "../QuestionTypes";
 function QuestionsEditor() {
   const { courseId, quizId, questionId } = useParams();
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function QuestionsEditor() {
     (state: KanbasState) => state.questionsReducer.question
   );
   console.log("questionsList",questions);
-  console.log("question",question);
+  console.log("question in editor",question);
   const existsQuestion = questions.find(
     (question) => question.id === questionId
   );
@@ -27,6 +27,7 @@ function QuestionsEditor() {
     service.createQuestion(courseId,quizId, question).then((question) => {
       dispatch(addQuestion(question));
     });
+    dispatch(setQuestion(question));
   };
 
   const handleDeleteQuestion = (questionId: any) => {
@@ -35,9 +36,10 @@ function QuestionsEditor() {
       dispatch(deleteQuestion(questionId));
     });
   };
-  const handleUpdateQuestion = async () => {
+  const handleUpdateQuestion = async (question:any) => {
+    dispatch(setQuestion(question));
     const status = await service.updateQuestion(question);
-    console.log("in editor", question);
+    console.log("in update", question);
     dispatch(updateQuestion(question));
   };
   useEffect(() => {
@@ -61,37 +63,37 @@ function QuestionsEditor() {
       <button className="btn btn-light m-1 border border-light-grey rounded border-1">
         &#128269; Find Question
       </button>
-      <input
+      {/* <input
         value={question.title}
         onChange={(e) =>
           dispatch(setQuestion({ ...question, title: e.target.value }))
         }
         className="form-control m-2"
-      />
+      /> */}
       <ul className="list-group">
             {questions.map((question) => (
               <li className="list-group-item">
                 <div className="d-flex">
                   <div style={{ alignSelf: "center" }}>{question.title}</div>
                   <div className="text-secondary p-1">
-                   
+                   <QuestionTypes/>
                       
                 <span className="float-end">
+             
+                <button
+                  onClick={() => handleUpdateQuestion(question)}
+                  className="btn btn-success me-2 p-1"
+                  style={{ borderRadius: "0.375rem" }}
+                >
+                   Update Question
+                </button>
                 <button
                   onClick={() => handleDeleteQuestion(question.id)}
                   className="btn btn-danger me-2 p-1"
                   style={{ borderRadius: "0.375rem" }}
                 >
-                  Delete
+                   Discard Question
                 </button>
-                <button
-                  onClick={() => dispatch(setQuestion(question))}
-                  className="btn btn-success me-2 p-1"
-                  style={{ borderRadius: "0.375rem" }}
-                >
-                  Edit
-                </button>
-               
               </span>
                                       
                   </div>

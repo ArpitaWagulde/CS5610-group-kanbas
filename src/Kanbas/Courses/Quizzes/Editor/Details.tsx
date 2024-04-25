@@ -10,6 +10,11 @@ import { Editor } from '@tinymce/tinymce-react';
 
 function DetailsEditor() {
   const editorRef = useRef<any>(null);
+//   const handleEditorChange = (content:any, editorRef:any) => {
+//     console.log('Content was updated:', content);
+//     dispatch(setQuiz({ ...quiz, description: content }))
+//    // quiz.setState({ text: content });
+// }
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
@@ -59,6 +64,13 @@ function DetailsEditor() {
       <br />
       Quiz Instructions:
       <Editor
+onChange={(content, editor) => {
+  const newDescription = editor.getContent(); // Use getContent to get editor content
+  console.log("New description:", newDescription); // Check if description is updated
+  dispatch(setQuiz({ ...quiz, description: newDescription.toString() }));
+  console.log("New quiz state:", quiz); // Check the updated quiz state
+}}
+value={quiz.description}
         apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
         onInit={(_evt, editor) => editorRef.current = editor}
         initialValue=""

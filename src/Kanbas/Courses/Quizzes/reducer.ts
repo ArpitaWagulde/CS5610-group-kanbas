@@ -5,6 +5,7 @@ const initialState = {
   quiz: {
     id: "1234",
     status: "Closed",
+    description:"",
     due_date: "2024-03-04",
     points: "8 pts",
     question_count: "12 Questions",
@@ -39,7 +40,7 @@ const quizzesSlice = createSlice({
       });
     },
     setQuiz: (state, action) => {
-      console.log(action.payload);
+      console.log("setQuiz",action.payload);
       state.quiz = action.payload;
     },
     setQuizzes: (state, action) => {

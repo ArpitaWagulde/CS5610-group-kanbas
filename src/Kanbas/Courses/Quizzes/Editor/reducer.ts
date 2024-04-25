@@ -4,9 +4,12 @@ const initialState = {
   questions: <any[]>[],
   question: {
     id:"",
-    title: "Unnamed Question",
-    points: "8 pts",
-    question_count: "12 Questions",
+    title: "",
+    type:"Multiple Choice",
+    description:"Enter question here",
+    answer: [],
+    options:[],
+    quizId: "",
     
   },
 };
@@ -35,6 +38,7 @@ const questionsSlice = createSlice({
       });
     },
     setQuestion: (state, action) => {
+      console.log("setQuestion",action.payload);
       state.question = action.payload;
     },
     setQuestions: (state, action) => {

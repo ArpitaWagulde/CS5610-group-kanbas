@@ -81,7 +81,7 @@ function FillInTheBlanks() {
             Enter your questions text, then define all possible correct answers for the blank. Students will see the question followed by a small text box to type in their answers.
             <div></div>
             <br/>
-            <h3> Question:</h3>
+            {/* <h3> Question:</h3>
             <Editor
                 apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
                 onInit={(_evt, editor) => editorRef.current = editor}
@@ -101,19 +101,19 @@ function FillInTheBlanks() {
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
             />
-            <br />
+            <br /> */}
             <h3> Answers:</h3>
             <div id="answers">
             <Button className="transparent-button" onClick={addOption}> + Add Another Answer</Button>
             <br></br>
             </div>
-            <Button className="btn btn-success">
+            {/* <Button className="btn btn-success">
                 Update Question
               </Button>
               <Button className="btn btn-danger">
                
                 Discard Changes
-              </Button>
+              </Button> */}
         </div>
     );
 }

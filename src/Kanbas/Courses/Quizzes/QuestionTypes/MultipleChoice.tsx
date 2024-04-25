@@ -10,12 +10,12 @@ import { Button } from "react-bootstrap";
 import "./index.css";
 
 function MultipleChoice() {
-    const editorRef = useRef<any>(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
+    // const editorRef = useRef<any>(null);
+    // const log = () => {
+    //     if (editorRef.current) {
+    //         console.log(editorRef.current.getContent());
+    //     }
+    // };
     const { courseId, quizId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -82,7 +82,7 @@ function MultipleChoice() {
           
             <div></div>
             <br/>
-            <h3> Question:</h3>
+            {/* <h3> Question:</h3>
             <Editor
                 apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
                 onInit={(_evt, editor) => editorRef.current = editor}
@@ -101,20 +101,20 @@ function MultipleChoice() {
                         'removeformat | help',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
-            />
+            /> */}
             <br />
             <h3> Answers:</h3>
             <div id="answers">
             <Button className="transparent-button" onClick={addOption}> + Add Another Answer</Button>
             <br></br>
             </div>
-            <Button className="btn btn-success">
+            {/* <Button className="btn btn-success">
                 Update Question
               </Button>
               <Button className="btn btn-danger">
                
                 Discard Changes
-              </Button>
+              </Button> */}
         </div>
     );
 }
