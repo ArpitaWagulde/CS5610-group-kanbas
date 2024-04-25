@@ -9,7 +9,7 @@ const initialState = {
     due_date: "2024-01-01",
     published: false,
     title: "Unnamed Quiz",
-    points: 100,
+    points: 0,
     assignment_group: "Quizzes",
     shuffle_answers: true,
     time_limit: 20,
@@ -23,6 +23,7 @@ const initialState = {
     until_date: "2024-01-01",
     question_count: 11,
     course: "CS101",
+    quizFor: "Everyone",
   },
 };
 

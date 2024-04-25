@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   questions: <any[]>[],
   question: {
-    id:"",
+    id: "1234",
     title: "",
-    type:"Multiple Choice",
-    description:"Enter question here",
+    type: "MultipleChoice",
+    description: "Enter question here",
     answer: [],
-    options:[],
+    options: [],
     quizId: "",
-    
+    points: 0,
   },
 };
 
@@ -38,7 +38,7 @@ const questionsSlice = createSlice({
       });
     },
     setQuestion: (state, action) => {
-      console.log("setQuestion",action.payload);
+      console.log("setQuestion", action.payload);
       state.question = action.payload;
     },
     setQuestions: (state, action) => {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./index.css";
-import { addQuiz, setQuiz, updateQuiz } from "../reducer";
+import { addQuiz, setQuiz, setQuizzes, updateQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
@@ -42,21 +42,24 @@ function DetailsEditor() {
   // console.log("current quiz",quiz);
   const existsQuiz = quizzes.find((quiz) => quiz.id === quizId);
   const handleAddQuiz = () => {
-    console.log(quiz);
+    // console.log(quiz);
     service.createQuiz(courseId, quiz).then((quiz) => {
       dispatch(addQuiz(quiz));
     });
   };
   const handleUpdateQuiz = async () => {
     const status = await service.updateQuiz(quiz);
-    console.log("in editor", quiz);
+    // console.log("in editor", quiz);
     dispatch(updateQuiz(quiz));
   };
   useEffect(() => {
+    service.findQuizzesForCourse(courseId).then((quizzes) => {
+      dispatch(setQuizzes(quizzes));
+    });
     service.findQuiz(quizId).then((quiz) => {
       dispatch(setQuiz(quiz));
     });
-  }, []);
+  }, [courseId, quizId]);
 
   return (
     <div className="wd-asmt-edit-home flex-fill">
@@ -71,12 +74,12 @@ function DetailsEditor() {
       Quiz Instructions:
       <Editor
         onChange={(content, editor) => {
-          const newDescription = editor.getContent(); // Use getContent to get editor content
-          console.log("New description:", newDescription); // Check if description is updated
+          const newDescription = editor.getContent();
+          // console.log("New description:", newDescription);
           dispatch(
             setQuiz({ ...quiz, description: newDescription.toString() })
           );
-          console.log("New quiz state:", quiz); // Check the updated quiz state
+          // console.log("New quiz state:", quiz);
         }}
         value={quiz.description}
         apiKey="35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg"
@@ -205,7 +208,13 @@ function DetailsEditor() {
                 <b>Assign to</b>
               </span>
               <br />
-              <input className="m-2 form-control" value="Everyone" />
+              <input
+                className="m-2 form-control"
+                value={quiz.quizFor}
+                onChange={(e) =>
+                  dispatch(setQuiz({ ...quiz, quizFor: e.target.value }))
+                }
+              />
               <span className="card-title m-2">
                 <b>Due</b>
               </span>
@@ -297,7 +306,8 @@ function DetailsEditor() {
                   existsQuiz === undefined
                     ? handleAddQuiz()
                     : handleUpdateQuiz();
-                  handlePublishQuiz(quiz);
+                  dispatch(setQuiz({ ...quiz, published: false }));
+                  handlePublishQuiz({ ...quiz, published: false });
                   navigate(`/Kanbas/Courses/${courseId}/Quizzes`);
                 }}
                 className="btn btn-success ms-2 float-end"

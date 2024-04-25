@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./index.css";
 import { setQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
-import { Routes, Route, Navigate } from "react-router";
 import { FaCheckCircle, FaEllipsisV, FaEdit, FaBan } from "react-icons/fa";
 import { handlePublishQuiz } from "../index";
 
@@ -15,7 +14,7 @@ function QuizDetailsSummary() {
   const navigate = useNavigate();
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   const [published, setPublished] = useState(Boolean);
-  console.log("details screen", quiz);
+  // console.log("details screen", quiz);
 
   const formatDate = (dateString: string): string => {
     const dateObject = new Date(dateString);
@@ -110,7 +109,7 @@ function QuizDetailsSummary() {
             <b>Shuffle Answers</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-          {quiz?.shuffle_answers ? "Yes" : "No"}
+            {quiz?.shuffle_answers ? "Yes" : "No"}
           </div>
         </div>
         <div className="row">
@@ -158,7 +157,7 @@ function QuizDetailsSummary() {
             <b>Webcam Required</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.webcam ?"Yes" : "No"}
+            {quiz?.webcam ? "Yes" : "No"}
           </div>
         </div>
         <div className="row">
@@ -166,32 +165,39 @@ function QuizDetailsSummary() {
             <b>Lock Questions after answering</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.lock_question ?"Yes" : "No"}
+            {quiz?.lock_question ? "Yes" : "No"}
           </div>
         </div>
         <br></br>
         <div className="row">
-          <div className="col-4" style={{ textAlign: "left" }}>
+          <div className="col-3" style={{ textAlign: "left" }}>
             <b>Due</b>
           </div>
-          <div className="col-4" style={{ textAlign: "left" }}>
+          <div className="col-3" style={{ textAlign: "left" }}>
+            <b>For</b>
+          </div>
+          <div className="col-3" style={{ textAlign: "left" }}>
             <b>Available From</b>
           </div>
-          <div className="col-4" style={{ textAlign: "left" }}>
+          <div className="col-3" style={{ textAlign: "left" }}>
             <b>Until</b>
           </div>
         </div>
         <hr></hr>
         <div className="row">
-          <div className="col-4" style={{ textAlign: "left" }}>
+          <div className="col-3" style={{ textAlign: "left" }}>
             {" "}
             {formatDate(quiz?.due_date)}{" "}
           </div>
-          <div className="col-4" style={{ textAlign: "left" }}>
+          <div className="col-3" style={{ textAlign: "left" }}>
+            {" "}
+            {quiz?.quizFor}{" "}
+          </div>
+          <div className="col-3" style={{ textAlign: "left" }}>
             {" "}
             {formatDate(quiz?.available_date)}{" "}
           </div>
-          <div className="col-4" style={{ textAlign: "left" }}>
+          <div className="col-3" style={{ textAlign: "left" }}>
             {" "}
             {formatDate(quiz?.until_date)}{" "}
           </div>

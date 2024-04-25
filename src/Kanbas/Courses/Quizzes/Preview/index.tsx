@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./index.css";
 import { setQuiz } from "../reducer";
 import { setQuestions } from "../Editor/reducer";
@@ -12,10 +12,6 @@ import { FaInfoCircle } from "react-icons/fa";
 function Preview() {
   const { quizId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const questions = useSelector(
-    (state: KanbasState) => state.questionsReducer.questions
-  );
 
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   useEffect(() => {
@@ -26,7 +22,7 @@ function Preview() {
       dispatch(setQuestions(questions));
     });
   }, [quizId]);
-  console.log(questions);
+  // console.log(questions);
   return (
     <div className="wd-asmt-edit-home flex-fill">
       <h2>{quiz?.title}</h2>

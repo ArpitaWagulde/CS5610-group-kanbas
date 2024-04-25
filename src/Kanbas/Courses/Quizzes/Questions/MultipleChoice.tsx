@@ -1,121 +1,92 @@
-import { useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { addQuiz, setQuiz, updateQuiz } from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
-import * as service from "../service";
-import { useRef } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
 import { Button } from "react-bootstrap";
+import { setQuestion } from "../Editor/reducer";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 
 function MultipleChoice() {
-    // const editorRef = useRef<any>(null);
-    // const log = () => {
-    //     if (editorRef.current) {
-    //         console.log(editorRef.current.getContent());
-    //     }
-    // };
-    const { courseId, quizId } = useParams();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const question = useSelector(
+    (state: KanbasState) => state.questionsReducer.question
+  );
+  const [selectedAnswer, setSelectedAnswer] = useState<string>(
+    question.answer[0] || ""
+  );
 
-    const quizzes = useSelector(
-        (state: KanbasState) => state.quizzesReducer.quizzes
+  const addOption = () => {
+    dispatch(setQuestion({ ...question, options: [...question.options, ""] }));
+  };
+
+  const handleOptionChange = (index: number, value: string) => {
+    const updatedOptions = [...question.options];
+    updatedOptions[index] = value;
+    dispatch(setQuestion({ ...question, options: updatedOptions }));
+  };
+
+  const handleOptionDelete = (index: number) => {
+    const updatedOptions = question.options.filter(
+      (_option: any, i: number) => i !== index
     );
+    dispatch(setQuestion({ ...question, options: updatedOptions }));
+  };
 
-    const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
+  const handleRadioButtonChange = (value: string) => {
+    setSelectedAnswer(value);
+    dispatch(setQuestion({ ...question, answer: [value] }));
+  };
 
-    const existsQuiz = quizzes.find((quiz) => quiz.id === quizId);
-    const handleAddQuiz = () => {
-        service.createQuiz(courseId, quiz).then((quiz) => {
-            dispatch(addQuiz(quiz));
-        });
-    };
-    const handleUpdateQuiz = async () => {
-        const status = await service.updateQuiz(quiz);
-        dispatch(updateQuiz(quiz));
-    };
-    useEffect(() => {
-        if (existsQuiz !== undefined) {
-            dispatch(setQuiz(existsQuiz));
-        } else {
-            dispatch(setQuiz([]));
-        }
-    }, []);
+  useEffect(() => {
+    setSelectedAnswer(question.answer[0] || "");
+  }, [question.answer]);
 
-    const addOption = () => {
-        const optionContainer = document.createElement('div');
-        optionContainer.className = 'option-container';
-
-        const radioButton = document.createElement('input');
-        radioButton.type = 'radio';
-        radioButton.name = 'correct-answer'; 
-
-        const optionInput = document.createElement('input');
-        optionInput.type = 'text';
-        optionInput.className = 'form-control w-25 option-text';
-
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
-        editButton.className = 'btn btn-primary edit-button';
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'btn btn-danger delete-button';
-
-        optionContainer.appendChild(radioButton);
-        optionContainer.appendChild(optionInput);
-        optionContainer.appendChild(editButton);
-        optionContainer.appendChild(deleteButton);
-    
-        document.getElementById('answers')?.appendChild(optionContainer);
-    };
-    
-
-    return (
-        <div className="wd-asmt-edit-home flex-fill">
-            <br />
-            <hr />
-            <br />
-            Enter your questions and multiple answers, then select the one correct answer.
-          
-            <div></div>
-            <br/>
-            {/* <h3> Question:</h3>
-            <Editor
-                apiKey='35aak55ndvlmx85j5wj9cirir6bycvthbursi8lw1k0b2trg'
-                onInit={(_evt, editor) => editorRef.current = editor}
-                initialValue=""
-                init={{
-                    height: 150,
-                    menubar: false,
-                    plugins: [
-                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                        'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                    ],
-                    toolbar: 'undo redo | blocks | ' +
-                        'bold italic forecolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                }}
-            /> */}
-            <br />
-            <h3> Answers:</h3>
-            <div id="answers">
-            <Button className="transparent-button" onClick={addOption}> + Add Another Answer</Button>
-            <br></br>
-            </div>
-            {/* <Button className="btn btn-success">
-                Update Question
-              </Button>
-              <Button className="btn btn-danger">
-               
-                Discard Changes
-              </Button> */}
-        </div>
-    );
+  return (
+    <div className="wd-asmt-edit-home flex-fill">
+      <br />
+      <hr />
+      <br />
+      Enter your questions and multiple answers, then select the one correct
+      answer.
+      <br />
+      <br />
+      <h3>Answers:</h3>
+      <div id="answers">
+        {question.options.map((option: any, index: any) => (
+          <div key={index} className="option-container">
+            <input
+              type="radio"
+              name="correct-answer"
+              checked={selectedAnswer === option}
+              onChange={() => handleRadioButtonChange(option)}
+            />
+            <input
+              type="text"
+              className="form-control w-25 option-text"
+              value={option}
+              onChange={(e) => handleOptionChange(index, e.target.value)}
+            />
+            <button
+              className="btn btn-primary edit-button"
+              onClick={() => console.log("Edit button clicked")}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-danger delete-button"
+              onClick={() => handleOptionDelete(index)}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+        <br />
+        <Button className="transparent-button" onClick={addOption}>
+          + Add Another Answer
+        </Button>
+        <br />
+      </div>
+    </div>
+  );
 }
+
 export default MultipleChoice;

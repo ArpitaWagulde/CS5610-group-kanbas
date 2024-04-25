@@ -1,18 +1,17 @@
 import { useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./index.css";
 import {
   addQuestion,
   setQuestion,
   setQuestions,
-  updateQuestion,
   deleteQuestion,
 } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "./service";
 function QuestionsEditor() {
-  const { courseId, quizId, questionId } = useParams();
+  const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,36 +24,20 @@ function QuestionsEditor() {
   );
   // console.log("questionsList", questions);
   // console.log("question", question);
-  const existsQuestion = questions.find(
-    (question) => question.id === questionId
-  );
   const handleAddQuestion = () => {
-    service.createQuestion(quizId, question).then((question) => {
+    return service.createQuestion(quizId, question).then((question) => {
       dispatch(addQuestion(question));
+      dispatch(setQuestion(question));
+      return question;
     });
-    dispatch(setQuestion(question));
   };
 
   const handleDeleteQuestion = (questionId: any) => {
-    console.log("in delete", questionId);
+    // console.log("in delete", questionId);
     service.deleteQuestion(questionId).then((status) => {
       dispatch(deleteQuestion(questionId));
     });
   };
-  const handleUpdateQuestion = async (question: any) => {
-    dispatch(setQuestion(question));
-    const status = await service.updateQuestion(question);
-    console.log("in update", question);
-    dispatch(updateQuestion(question));
-  };
-  // useEffect(() => {
-  //   // console.log("exisiting in use effect", existsQuestion);
-  //   if (existsQuestion !== undefined) {
-  //     dispatch(setQuestion(existsQuestion));
-  //   } else {
-  //     dispatch(setQuestion([]));
-  //   }
-  // }, []);
   useEffect(() => {
     service.findQuestionsForQuiz(quizId).then((questions) => {
       dispatch(setQuestions(questions));
@@ -64,9 +47,11 @@ function QuestionsEditor() {
     <>
       <button
         className="btn btn-light m-1 border border-light-grey rounded border-1"
-        onClick={() => {
-          handleAddQuestion();
-          navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}/Questions`);
+        onClick={async () => {
+          const newQuestion = await handleAddQuestion();
+          navigate(
+            `/Kanbas/Courses/${courseId}/Quizzes/${quizId}/Questions/${newQuestion.id}`
+          );
         }}
       >
         + New Question
@@ -77,13 +62,6 @@ function QuestionsEditor() {
       <button className="btn btn-light m-1 border border-light-grey rounded border-1">
         &#128269; Find Question
       </button>
-      {/* <input
-        value={question.title}
-        onChange={(e) =>
-          dispatch(setQuestion({ ...question, title: e.target.value }))
-        }
-        className="form-control m-2"
-      /> */}
       <ul className="list-group">
         {questions.map((question) => (
           <li className="list-group-item">
@@ -99,7 +77,11 @@ function QuestionsEditor() {
                     Delete
                   </button>
                   <button
-                    onClick={() => dispatch(setQuestion(question))}
+                    onClick={() =>
+                      navigate(
+                        `/Kanbas/Courses/${courseId}/Quizzes/${quizId}/Questions/${question.id}`
+                      )
+                    }
                     className="btn btn-success me-2 p-1"
                     style={{ borderRadius: "0.375rem" }}
                   >

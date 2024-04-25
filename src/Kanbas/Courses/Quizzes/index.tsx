@@ -15,13 +15,7 @@ import Button from "react-bootstrap/Button";
 import * as service from "./service";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../store";
-import {
-  deleteQuiz,
-  setQuizzes,
-  updateQuiz,
-  publishQuiz,
-  setQuizById,
-} from "./reducer";
+import { deleteQuiz, setQuizzes, publishQuiz, setQuizById } from "./reducer";
 import store from "../../store";
 
 function getStatus(quiz: any) {
@@ -172,7 +166,9 @@ function Quizzes() {
                 <div className="d-flex">
                   <div style={{ alignSelf: "center" }}></div>
                   <div className="text-secondary p-1">
-                    <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}`}>
+                    <Link
+                      to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}/Summary`}
+                    >
                       {quiz.title}
                     </Link>
                     <br />

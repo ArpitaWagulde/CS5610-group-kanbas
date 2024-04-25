@@ -1,14 +1,12 @@
 .info-box {
-    display: flex;
-    align-items: center;
-    background-color: #ffcccc;
-    padding: 5px;
-    border-radius: 5px;
-    color: black;
+  display: flex;
+  align-items: center;
+  background-color: #ffcccc;
+  padding: 5px;
+  border-radius: 5px;
+  color: black;
+}
 
-  }
-
-  .info-text {
-    flex: 1; 
-  }
-  
+.info-text {
+  flex: 1;
+}
