@@ -164,7 +164,7 @@ function QuestionTypes() {
             navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}`);
           }}
         >
-          Discard Changes
+          Cancel
         </Button>
       </div>
     </>
