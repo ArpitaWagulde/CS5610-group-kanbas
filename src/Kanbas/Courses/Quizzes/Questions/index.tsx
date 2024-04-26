@@ -42,13 +42,6 @@ function QuestionTypes() {
     }
   };
 
-  const handleDeleteQuestion = (questionId: any) => {
-    // console.log("in delete", questionId);
-    service.deleteQuestion(questionId).then((status) => {
-      dispatch(deleteQuestion(questionId));
-    });
-  };
-
   const handleOptionChange = (event: any) => {
     const selectedValue = event.target.value;
     dispatch(setQuestion({ ...question, type: selectedValue }));
@@ -168,7 +161,6 @@ function QuestionTypes() {
         <Button
           className="btn btn-danger"
           onClick={() => {
-            handleDeleteQuestion(question.id);
             navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}`);
           }}
         >

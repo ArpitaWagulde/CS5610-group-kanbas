@@ -10,6 +10,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "./service";
+import * as quizService from "../service";
+import { setQuiz } from "../reducer";
 function QuestionsEditor() {
   const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
@@ -31,13 +33,26 @@ function QuestionsEditor() {
       return question;
     });
   };
+  const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
 
-  const handleDeleteQuestion = (questionId: any) => {
+  const handleDeleteQuestion = async (questionId: any) => {
     // console.log("in delete", questionId);
-    service.deleteQuestion(questionId).then((status) => {
+    try {
+      const status = await service.deleteQuestion(questionId);
       dispatch(deleteQuestion(questionId));
-    });
+
+      let newPoints = 0;
+      const questions = await service.findQuestionsForQuiz(quizId);
+      questions.forEach((q: any) => (newPoints += q.points));
+
+      const newQuiz = { ...quiz, points: newPoints };
+      await quizService.updateQuiz(newQuiz);
+      dispatch(setQuiz(newQuiz));
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
   useEffect(() => {
     service.findQuestionsForQuiz(quizId).then((questions) => {
       dispatch(setQuestions(questions));

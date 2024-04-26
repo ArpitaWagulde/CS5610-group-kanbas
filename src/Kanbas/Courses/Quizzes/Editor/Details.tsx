@@ -55,36 +55,36 @@ function DetailsEditor() {
   useEffect(() => {
     service.findQuizzesForCourse(courseId).then((quizzes) => {
       dispatch(setQuizzes(quizzes));
+      quizzes.find((quiz: any) => quiz.id === quizId) === undefined
+        ? dispatch(
+            setQuiz({
+              ...quiz,
+              description: "",
+              due_date: "2024-01-01",
+              published: false,
+              title: "Unnamed Quiz",
+              points: 0,
+              assignment_group: "Quizzes",
+              shuffle_answers: true,
+              time_limit: 20,
+              multiple_attempts: false,
+              show_correct: true,
+              access_code: "",
+              one_question: true,
+              webcam: false,
+              lock_question: false,
+              available_date: "2024-01-01",
+              until_date: "2024-01-01",
+              question_count: 0,
+              course: "CS101",
+              quizFor: "Everyone",
+              type: "Graded Quiz",
+            })
+          )
+        : service.findQuiz(quizId).then((quiz) => {
+            dispatch(setQuiz(quiz));
+          });
     });
-    existsQuiz === undefined
-      ? dispatch(
-          setQuiz({
-            ...quiz,
-            description: "",
-            due_date: "2024-01-01",
-            published: false,
-            title: "Unnamed Quiz",
-            points: 0,
-            assignment_group: "Quizzes",
-            shuffle_answers: true,
-            time_limit: 20,
-            multiple_attempts: false,
-            show_correct: true,
-            access_code: "",
-            one_question: true,
-            webcam: false,
-            lock_question: false,
-            available_date: "2024-01-01",
-            until_date: "2024-01-01",
-            question_count: 0,
-            course: "CS101",
-            quizFor: "Everyone",
-            type: "Graded Quiz",
-          })
-        )
-      : service.findQuiz(quizId).then((quiz) => {
-          dispatch(setQuiz(quiz));
-        });
   }, [courseId, quizId]);
 
   return (
