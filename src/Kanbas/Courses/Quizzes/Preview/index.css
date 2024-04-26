@@ -8,10 +8,10 @@
 }
 
 .info-text {
-  flex: 1; 
+  flex: 1;
 }
 
-.card {
+.preview-card {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -20,17 +20,17 @@
   text-align: left;
 }
 
-.card-header {
+.preview-card-header {
   padding: 20px;
 }
 
-.card-heading {
+.preview-card-heading {
   margin: 0;
   font-size: 24px;
   color: #333;
   text-align: left;
 }
-.card-heading2 {
+.preview-card-heading2 {
   margin: 0;
   font-size: 24px;
   color: #333;
@@ -41,15 +41,15 @@
   background-color: #f5f5f5;
 }
 
-.card-body {
-  padding: 20px; 
+.preview-card-body {
+  padding: 20px;
   text-align: left;
 }
 
-.card-body > * {
-  margin-bottom: 10px; 
+.preview-card-body > * {
+  margin-bottom: 10px;
 }
 
-.card-body label {
+.preview-card-body label {
   margin-left: 5px;
 }

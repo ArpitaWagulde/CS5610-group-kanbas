@@ -31,9 +31,10 @@ function Preview() {
     switch (questionType) {
       case "FillinTheBlanks":
         return (
-        <div>
-          Answer: <input type="text" />
-          </div>);
+          <div>
+            Answer: <input type="text" />
+          </div>
+        );
       case "TrueorFalse":
         return (
           <div>
@@ -75,13 +76,16 @@ function Preview() {
       <div>
         {questions.map((question, index) => (
           <div key={index}>
-            <div className="card">
-            <div className="card-header bg-light-grey" style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h4 className="card-heading">{question.title}</h4>
-            <h4 className="card-heading">{question.points} pts</h4>
-          </div>
+            <div className="preview-card">
+              <div
+                className="preview-card-header bg-light-grey"
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <h4 className="preview-card-heading">{question.title}</h4>
+                <h4 className="preview-card-heading">{question.points} pts</h4>
+              </div>
 
-              <div className="card-body">
+              <div className="preview-card-body">
                 {question.description}
                 <hr></hr>
                 {renderOptions(question.type, question.options)}
@@ -91,9 +95,7 @@ function Preview() {
           </div>
         ))}
       </div>
-      <button className="submit-quiz-btn">
-        Submit Quiz
-      </button>
+      <button className="submit-quiz-btn">Submit Quiz</button>
     </div>
   );
 }

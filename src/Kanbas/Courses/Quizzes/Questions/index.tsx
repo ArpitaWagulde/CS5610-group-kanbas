@@ -7,7 +7,7 @@ import FillInTheBlanks from "./FillInTheBlanks";
 import { Editor } from "@tinymce/tinymce-react";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestion, updateQuestion } from "../Editor/reducer";
+import { setQuestion, updateQuestion, deleteQuestion } from "../Editor/reducer";
 import * as service from "../Editor/service";
 import * as quizService from "../service";
 import { setQuiz } from "../reducer";
@@ -40,6 +40,13 @@ function QuestionTypes() {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleDeleteQuestion = (questionId: any) => {
+    // console.log("in delete", questionId);
+    service.deleteQuestion(questionId).then((status) => {
+      dispatch(deleteQuestion(questionId));
+    });
   };
 
   const handleOptionChange = (event: any) => {
@@ -153,12 +160,20 @@ function QuestionTypes() {
           className="btn btn-success"
           onClick={() => {
             handleUpdateQuestion(question);
-            navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}/`);
+            navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}`);
           }}
         >
           Update Question
         </Button>
-        <Button className="btn btn-danger">Discard Changes</Button>
+        <Button
+          className="btn btn-danger"
+          onClick={() => {
+            handleDeleteQuestion(question.id);
+            navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}`);
+          }}
+        >
+          Discard Changes
+        </Button>
       </div>
     </>
   );

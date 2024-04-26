@@ -123,10 +123,10 @@ function DetailsEditor() {
           <div className="col-3">Assignment Group</div>
           <div className="col-9">
             <select className="form-select" id="groups">
-              <option selected value="assignments">
-                ASSIGNMENTS
+              <option value="assignments">ASSIGNMENTS</option>
+              <option selected value="quiz">
+                QUIZZES
               </option>
-              <option value="quiz">QUIZ</option>
               <option value="exam">EXAMS</option>
               <option value="project">PROJECT</option>
             </select>
@@ -156,6 +156,7 @@ function DetailsEditor() {
               value="do-not-count"
               name="check-do-not-count"
               id="chkbox-do-not-count"
+              defaultChecked={true}
             />
             <label
               className="form-check-label ps-1 border-solid border-2"
@@ -178,7 +179,12 @@ function DetailsEditor() {
               Time Limit
             </label>{" "}
             &nbsp;
-            <input className="form-text-input" type="number" maxLength={3} />
+            <input
+              className="form-text-input"
+              type="number"
+              maxLength={3}
+              defaultValue={20}
+            />
             &nbsp;
             <label>Minutes</label>
             <br />

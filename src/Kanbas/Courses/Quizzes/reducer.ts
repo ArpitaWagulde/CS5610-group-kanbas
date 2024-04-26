@@ -4,7 +4,6 @@ const initialState = {
   quizzes: <any[]>[],
   quiz: <any>{
     id: "1234",
-    status: "Closed",
     description: "",
     due_date: "2024-01-01",
     published: false,
@@ -15,7 +14,7 @@ const initialState = {
     time_limit: 20,
     multiple_attempts: false,
     show_correct: "Immediately",
-    access_code: "abcd",
+    access_code: "",
     one_question: true,
     webcam: false,
     lock_question: false,
@@ -24,6 +23,7 @@ const initialState = {
     question_count: 11,
     course: "CS101",
     quizFor: "Everyone",
+    type: "Graded Quiz",
   },
 };
 
