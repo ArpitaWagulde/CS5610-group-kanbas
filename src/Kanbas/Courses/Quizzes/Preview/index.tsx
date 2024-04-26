@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Link, Route, Router, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./index.css";
 import { setQuiz } from "../reducer";
 import { setQuestions } from "../Editor/reducer";
@@ -7,13 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
 import * as questionService from "../Editor/service";
-import { FaInfoCircle,FaPencilAlt } from "react-icons/fa";
+import { FaInfoCircle, FaPencilAlt } from "react-icons/fa";
 import Timestamp from "react-timestamp";
 import { Button } from "react-bootstrap";
 import { CiCircleQuestion } from "react-icons/ci";
 
 function Preview() {
-  const { courseId,quizId } = useParams();
+  const { courseId, quizId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const questions = useSelector(
@@ -29,9 +29,6 @@ function Preview() {
       dispatch(setQuestions(questions));
     });
   }, [quizId]);
-
-  
-  
 
   const renderOptions = (questionType: string, options: string[]) => {
     switch (questionType) {
@@ -62,7 +59,7 @@ function Preview() {
         return null;
     }
   };
-  
+
   return (
     <div className="wd-asmt-edit-home flex-fill">
       <h2>{quiz?.title}</h2>
@@ -73,21 +70,19 @@ function Preview() {
         <div className="info-text">
           This is a preview of the published version of the quiz
         </div>
-        
       </div>
-      <br/>
-      <br/>
-      
+      <br />
+      <br />
+
       <p></p>
       <div>
-        Start time of Quiz: <Timestamp date={new Date()} /> 
-        </div>
+        Start time of Quiz: <Timestamp date={new Date()} />
+      </div>
       <h2>Quiz Instructions</h2>
       <hr />
       <div>
         {questions.map((question, index) => (
           <div key={index}>
-           
             <div className="preview-card">
               <div
                 className="preview-card-header bg-light-grey"
@@ -105,45 +100,42 @@ function Preview() {
             </div>
             <br />
           </div>
-          
         ))}
-      
       </div>
-      <div className="m-1 p-2" style={{border:"1px solid #ccc"}}>
+      <div className="m-1 p-2" style={{ border: "1px solid #ccc" }}>
         Quiz Saved at :
-      <Timestamp date={new Date()} /> <button className="btn btn-light" style={{border:"1px solid #ccc"}} >Submit Quiz</button>
+        <Timestamp date={new Date()} />{" "}
+        <button className="btn btn-light" style={{ border: "1px solid #ccc" }}>
+          Submit Quiz
+        </button>
       </div>
-      
-    
+
       <Button
-                   className="btn btn-light"
-          onClick={() => {
-                    navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}`);
-          }}
-          style={{border:"1px solid #ccc"}}
-        > 
+        className="btn btn-light"
+        onClick={() => {
+          navigate(`/Kanbas/Courses/${courseId}/Quizzes/${quizId}`);
+        }}
+        style={{ border: "1px solid #ccc" }}
+      >
         <FaPencilAlt /> Keep Editing the Quiz?
-        </Button>
-     
-                    
-                   
-     
+      </Button>
+
       <div>
-          <h5>Questions</h5>
-          <ul style={{listStyleType:'none'}}>
-        {questions.map((question) => (
-          <li>
-            <div className="d-flex">
-            <CiCircleQuestion className="icon m-1" size={24} />
-            <div style={{ alignSelf: "center" ,color:'red'}}>{question.title}</div>
-            </div>
-          </li>
-        ))}
-      </ul>
+        <h5>Questions</h5>
+        <ul style={{ listStyleType: "none" }}>
+          {questions.map((question) => (
+            <li>
+              <div className="d-flex">
+                <CiCircleQuestion className="icon m-1" size={24} />
+                <div style={{ alignSelf: "center", color: "red" }}>
+                  {question.title}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
-    
-    
   );
 }
 export default Preview;
