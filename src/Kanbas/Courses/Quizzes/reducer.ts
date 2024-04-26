@@ -2,14 +2,28 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   quizzes: <any[]>[],
-  quiz: {
+  quiz: <any>{
     id: "1234",
-    status: "Closed",
-    due_date: "2024-03-04",
-    points: "8 pts",
-    question_count: "12 Questions",
+    description: "",
+    due_date: "2024-01-01",
     published: false,
     title: "Unnamed Quiz",
+    points: 0,
+    assignment_group: "Quizzes",
+    shuffle_answers: true,
+    time_limit: 20,
+    multiple_attempts: false,
+    show_correct: true,
+    access_code: "",
+    one_question: true,
+    webcam: false,
+    lock_question: false,
+    available_date: "2024-01-01",
+    until_date: "2024-01-01",
+    question_count: 0,
+    course: "CS101",
+    quizFor: "Everyone",
+    type: "Graded Quiz",
   },
 };
 
@@ -18,7 +32,9 @@ const quizzesSlice = createSlice({
   initialState,
   reducers: {
     addQuiz: (state, action) => {
+      // console.log("inside add", action.payload);
       state.quizzes = [{ ...action.payload }, ...state.quizzes];
+      // console.log("after add", state.quizzes);
     },
 
     deleteQuiz: (state, action) => {
@@ -57,6 +73,7 @@ const quizzesSlice = createSlice({
       if (foundQuiz) {
         state.quiz = foundQuiz;
       } else {
+        state.quiz = null;
         console.error(`Quiz with ID ${quizId} not found.`);
       }
     },

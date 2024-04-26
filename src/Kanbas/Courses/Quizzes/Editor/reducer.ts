@@ -3,11 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   questions: <any[]>[],
   question: {
-    status: "Closed",
-    due_date: "2024-03-04",
-    points: "8 pts",
-    question_count: "12 Questions",
-    title: "Unnamed Quiz",
+    id: "1234",
+    title: "",
+    type: "MultipleChoice",
+    description: "Enter question here",
+    answer: [],
+    options: [],
+    quizId: "",
+    points: 0,
   },
 };
 
@@ -21,13 +24,13 @@ const questionsSlice = createSlice({
 
     deleteQuestion: (state, action) => {
       state.questions = state.questions.filter(
-        (question) => question._id !== action.payload
+        (question) => question.id !== action.payload
       );
     },
 
     updateQuestion: (state, action) => {
       state.questions = state.questions.map((question) => {
-        if (question._id === action.payload._id) {
+        if (question.id === action.payload.id) {
           return action.payload;
         } else {
           return question;
@@ -35,6 +38,7 @@ const questionsSlice = createSlice({
       });
     },
     setQuestion: (state, action) => {
+      // console.log("setQuestion", action.payload);
       state.question = action.payload;
     },
     setQuestions: (state, action) => {

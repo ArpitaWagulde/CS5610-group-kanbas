@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./index.css";
-import { addAssignment, setAssignment, updateAssignment } from "../reducer";
+import {
+  addAssignment,
+  setAssignment,
+  updateAssignment,
+  setAssignments,
+} from "../reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../../store";
 import * as service from "../service";
@@ -11,7 +16,7 @@ function AssignmentEditor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const assignments = useSelector(
+  var assignments = useSelector(
     (state: KanbasState) => state.assignmentsReducer.assignments
   );
 
@@ -22,6 +27,7 @@ function AssignmentEditor() {
   const existsAssignment = assignments.find(
     (assignment) => assignment._id === assignmentId
   );
+
   const handleAddAssignment = () => {
     service.createAssignment(courseId, assignment).then((assignment) => {
       dispatch(addAssignment(assignment));
@@ -32,6 +38,11 @@ function AssignmentEditor() {
     dispatch(updateAssignment(assignment));
   };
   useEffect(() => {
+    service.findAssignmentsForCourse(courseId).then((cur_assignments) => {
+      dispatch(setAssignments(cur_assignments));
+      assignments = cur_assignments;
+    });
+
     if (existsAssignment !== undefined) {
       dispatch(setAssignment(existsAssignment));
     } else {

@@ -13,7 +13,7 @@ export const createModule = async (courseId, module) => {
   const response = await axiosWithCredentials.post(
     `courses/${courseId}/modules`,
     module
-  );
+  ); 
   return response.data;
 };
 export const findModulesForCourse = async (courseId) => {

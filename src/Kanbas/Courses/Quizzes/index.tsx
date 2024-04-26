@@ -5,7 +5,6 @@ import {
   FaTrashAlt,
   FaEdit,
   FaNewspaper,
-  FaTimes,
   FaBan,
 } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -16,13 +15,8 @@ import Button from "react-bootstrap/Button";
 import * as service from "./service";
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../store";
-import {
-  deleteQuiz,
-  setQuizzes,
-  updateQuiz,
-  publishQuiz,
-  setQuizById,
-} from "./reducer";
+import { deleteQuiz, setQuizzes, publishQuiz, setQuizById } from "./reducer";
+import store from "../../store";
 
 function getStatus(quiz: any) {
   const monthNames = [
@@ -55,9 +49,27 @@ function getStatus(quiz: any) {
   }
 }
 
+const formatDate = (dateString: string): string => {
+  const dateObject = new Date(dateString);
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObject.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+export const handlePublishQuiz = (quiz: any) => {
+  const status = service.publishQuiz({
+    ...quiz,
+    published: !quiz.published,
+  });
+  store.dispatch(publishQuiz({ ...quiz, published: !quiz.published }));
+};
+
 function Quizzes() {
   const { courseId } = useParams();
-  const quizList = useSelector((state: KanbasState) => state.quizzesReducer.quizzes);
+  const quizList = useSelector(
+    (state: KanbasState) => state.quizzesReducer.quizzes
+  );
   const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,19 +83,6 @@ function Quizzes() {
     });
   };
 
-  const handleEditQuiz = async () => {
-    const status = await service.updateQuiz(quiz);
-    dispatch(updateQuiz(quiz));
-  };
-
-  const handlePublishQuiz = (quiz: any) => {
-    const status = service.publishQuiz({
-      ...quiz,
-      published: !quiz.published,
-    });
-    dispatch(publishQuiz({ ...quiz, published: !quiz.published }));
-    handleCloseMenu();
-  };
   useEffect(() => {
     service.findQuizzesForCourse(courseId).then((quizzes) => {
       dispatch(setQuizzes(quizzes));
@@ -149,9 +148,9 @@ function Quizzes() {
           >
             <FaPlus className="ms-2" /> Quiz
           </button>
-
+          <button className="btn btn-light">
             <FaEllipsisV />
-         
+          </button>
           <br />
         </div>
       </div>
@@ -159,21 +158,23 @@ function Quizzes() {
       <ul className="list-group wd-asmt-list m-2">
         <li className="list-group-item">
           <div>
-            <FaEllipsisV className="me-2" /> Assignment Quizzes
+            <FaEllipsisV className="me-2" /> Quizzes
           </div>
           <ul className="list-group">
             {quizList.map((quiz) => (
               <li className="list-group-item" key={quiz.id}>
                 <div className="d-flex">
-                  <div style={{ alignSelf: 'center' }}></div>
+                  <div style={{ alignSelf: "center" }}></div>
                   <div className="text-secondary p-1">
-                    <Link to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}`}>
+                    <Link
+                      to={`/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}/Summary`}
+                    >
                       {quiz.title}
                     </Link>
                     <br />
                     <small>
-                      {getStatus(quiz)} | Due {quiz.due_date} | {quiz.points}{" "}
-                      pts | {quiz.question_count}
+                      {getStatus(quiz)} | Due {formatDate(quiz.due_date)} |{" "}
+                      {quiz.points} pts | {quiz.question_count} Questions
                     </small>
                   </div>
                   <div className="ms-auto" style={{ alignSelf: "center" }}>
@@ -184,6 +185,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             handlePublishQuiz(quiz);
+                            handleCloseMenu();
                           }}
                         />
                       ) : (
@@ -192,6 +194,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             handlePublishQuiz(quiz);
+                            handleCloseMenu();
                           }}
                         />
                       )}
@@ -221,7 +224,9 @@ function Quizzes() {
                         <MenuItem
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
-                            navigate(`/Kanbas/Courses/${courseId}/Quizzes/QuizDetailsSummary/${quiz.id}`);
+                            navigate(
+                              `/Kanbas/Courses/${courseId}/Quizzes/${quiz.id}/Summary`
+                            );
                           }}
                         >
                           <FaEdit /> &nbsp; Edit
@@ -230,6 +235,7 @@ function Quizzes() {
                           onClick={() => {
                             dispatch(setQuizById(quiz.id));
                             handlePublishQuiz(quiz);
+                            handleCloseMenu();
                           }}
                         >
                           {quiz.published ? (

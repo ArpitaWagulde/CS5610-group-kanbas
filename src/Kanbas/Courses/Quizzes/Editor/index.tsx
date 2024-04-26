@@ -1,21 +1,37 @@
-import { useEffect } from "react";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
-import "./index.css";
-import { addQuiz, setQuiz, updateQuiz } from "../reducer";
-import { useSelector, useDispatch } from "react-redux";
-import { KanbasState } from "../../../store";
-import * as service from "../service";
-import { Routes, Route, Navigate } from "react-router";
+import { useState } from "react";
 import DetailsEditor from "./Details";
 import QuestionsEditor from "./Questions";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import { FaCheckCircle, FaEllipsisV, FaBan } from "react-icons/fa";
+import { KanbasState } from "../../../store";
+import { useSelector } from "react-redux";
 function QuizEditor() {
-  const { pathname } = useLocation();
+  const [activeTab, setActiveTab] = useState("details");
+  const quiz = useSelector((state: KanbasState) => state.quizzesReducer.quiz);
   return (
     <>
       <div className="container-fluid">
-        <Tabs defaultActiveKey="details" className="mb-3">
+        <div className="d-flex justify-content-end wd-quiz-details">
+          Points &nbsp;
+          {quiz?.points} &nbsp; &nbsp;
+          {quiz.published ? (
+            <div className="text-success">
+              <FaCheckCircle />
+              &nbsp; Published
+            </div>
+          ) : (
+            <div>
+              <FaBan />
+              &nbsp;Not Published
+            </div>
+          )}
+          &nbsp; &nbsp;
+          <button className="btn btn-light">
+            <FaEllipsisV />
+          </button>
+        </div>
+        <Tabs defaultActiveKey={activeTab} className="mb-3">
           <Tab eventKey="details" title="Details">
             <DetailsEditor />
           </Tab>
