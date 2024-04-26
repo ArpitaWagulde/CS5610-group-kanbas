@@ -18,9 +18,9 @@ function QuizDetailsSummary() {
 
   const formatDate = (dateString: string): string => {
     const dateObject = new Date(dateString);
-    const year = dateObject.getFullYear();
+    const year = String(dateObject.getFullYear());
     const month = String(dateObject.getMonth() + 1).padStart(2, "0");
-    const day = String(dateObject.getDate() + 1).padStart(2, "0");
+    const day = String(dateObject.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -133,7 +133,7 @@ function QuizDetailsSummary() {
             <b>Show Correct Answers</b>
           </div>
           <div className="col-9" style={{ textAlign: "left" }}>
-            {quiz?.show_correct}
+            {quiz?.show_correct ? "Immediately" : ""}
           </div>
         </div>
         <div className="row">
